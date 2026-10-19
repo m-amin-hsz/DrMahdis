@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>کلینیک تخصصی رژیم و سبک زندگی | دکتر مهدیه</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥗</text></svg>">
+</head>
+<body>
+
+  <!-- Mock Push Notification Toast -->
+  <div id="notifToast" class="notif-toast">
+    <div class="notif-icon" id="notifIcon">💧</div>
+    <div>
+      <div class="notif-title" id="notifTitle">یادآور هوشمند خانم دکتر</div>
+      <div class="notif-body" id="notifBody">سلام عزیزم! ۱۵ دقیقه تا ناهار مونده، ۲ لیوان آب ولرم و ۴ دور تنفس مربعی یادت نره.</div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <div class="doctor-avatar-wrap">
+          <div class="doctor-avatar">🩺</div>
+          <div class="online-dot"></div>
+        </div>
+        <div class="brand-text">
+          <h1>کلینیک دکتر مهدیه</h1>
+          <p>متخصص تغذیه و اصلاح سبک زندگی</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="streak-pill">
+          <span>🔥</span>
+          <span id="streakCount">۵ روز</span>
+        </div>
+        <a href="doctor.html" style="font-size: 11px; text-decoration: none; background: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 8px; font-weight: 700;">
+          پنل پزشک 🩺
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Views -->
+    <main class="main-view">
+
+      <!-- ================= TAB 1: TODAY'S PLAN (HABIT STACKING) ================= -->
+      <section id="tab-today" class="tab-pane active">
+        
+        <!-- Day Selector Strip -->
+        <div class="days-strip" id="daysStrip">
+          <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- Technique Hero Card -->
+        <div class="technique-hero">
+          <div class="technique-tag">
+            <span>✨ تکنیک روز <span id="currentDayNum">۱</span> از ۹۰</span>
+            <span style="opacity: 0.6;">•</span>
+            <span id="techniqueCategory">هیدراتاسیون و هضم</span>
+          </div>
+          <h2 class="technique-title" id="techniqueTitle">نوشیدن دو لیوان آب ولرم قبل از وعده اصلی</h2>
+          
+          <div class="doctor-quote-box">
+            <span style="font-size: 16px; margin-left: 4px;">👩‍⚕️</span>
+            <span id="doctorQuote">«سلام عزیزم، به سفر تغییر سبک زندگیت خیلی خوش اومدی! اولین تکنیک ساده‌ترین اما قدرتمندترین کاره: قبل از ناهار و شام دو لیوان آب بنوش تا معده آماده هضم سالم بشه.»</span>
+          </div>
+
+          <!-- Doctor Audio Player -->
+          <div class="audio-card" id="audioCard">
+            <button class="play-btn" id="playBtn" onclick="toggleAudio()">▶</button>
+            <div class="waveform-mock">
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+              <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            </div>
+            <div class="audio-time" id="audioTime">01:25</div>
+          </div>
+        </div>
+
+        <!-- Habit Stacking Cumulative Checklist -->
+        <div class="habit-stack-section">
+          <div class="stack-header">
+            <div class="stack-title">
+              <span>🎯 وظایف انباشتی امروز</span>
+            </div>
+            <div class="stack-count" id="completedTasksRatio">۰ از ۱ انجام شده</div>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+            تکنیک‌های هر روز به روزهای قبل اضافه می‌شوند تا سبک زندگی ماندگار شکل بگیرد:
+          </p>
+          <div class="task-list" id="taskList">
+            <!-- Dynamically populated tasks -->
+          </div>
+        </div>
+
+        <!-- Water & Workout Trackers -->
+        <div class="trackers-grid">
+          <div class="tracker-card">
+            <div class="tracker-header">
+              <span class="tracker-name">💧 آب مصرفی</span>
+              <span style="font-size: 11px; color: #0284c7;">هدف: ۸ لیوان</span>
+            </div>
+            <div class="tracker-val"><span id="waterCount">۳</span> / ۸ <small style="font-size: 12px; font-weight: normal;">لیوان</small></div>
+            <div class="water-glasses" id="waterGlasses">
+              <span class="glass-icon filled" onclick="setWater(1)">🥛</span>
+              <span class="glass-icon filled" onclick="setWater(2)">🥛</span>
+              <span class="glass-icon filled" onclick="setWater(3)">🥛</span>
+              <span class="glass-icon" onclick="setWater(4)">🥛</span>
+              <span class="glass-icon" onclick="setWater(5)">🥛</span>
+              <span class="glass-icon" onclick="setWater(6)">🥛</span>
+              <span class="glass-icon" onclick="setWater(7)">🥛</span>
+              <span class="glass-icon" onclick="setWater(8)">🥛</span>
+            </div>
+            <button class="btn-sm-action" onclick="addWater()">+ نوشیدن یک لیوان دیگر</button>
+          </div>
+
+          <div class="tracker-card">
+            <div class="tracker-header">
+              <span class="tracker-name">🏃‍♀️ پیاده‌روی و تمرین</span>
+              <span style="font-size: 11px; color: #16a34a;">هدف: ۳۰ دقیقه</span>
+            </div>
+            <div class="tracker-val"><span id="workoutMins">۲۰</span> / ۳۰ <small style="font-size: 12px; font-weight: normal;">دقیقه</small></div>
+            <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 12px;">
+              <div id="workoutProgressBar" style="width: 66%; height: 100%; background: #10b981; transition: width 0.3s;"></div>
+            </div>
+            <button class="btn-sm-action" onclick="addWorkout(10)">+ ثبت ۱۰ دقیقه ورزش</button>
+          </div>
+        </div>
+
+        <!-- Homework & Task Card (If applicable for day) -->
+        <div class="card" id="homeworkCard" style="display: none;">
+          <div class="card-title">
+            <span>📝 تکلیف تعاملی امروز</span>
+            <span style="font-size: 11px; background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px;">ارسال برای پزشک</span>
+          </div>
+          <p id="homeworkInstruction" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px;"></p>
+          <div class="form-group">
+            <input type="text" id="homeworkInput" class="form-input" placeholder="پاسخ یا گزارش خود را اینجا بنویسید...">
+          </div>
+          <button class="btn-outline" onclick="submitHomework()">ارسال تکلیف برای خانم دکتر</button>
+        </div>
+
+      </section>
+
+      <!-- ================= TAB 2: WAITING ROOM (6-24 HOURS) ================= -->
+      <section id="tab-waiting" class="tab-pane">
+        <div class="waiting-room-hero">
+          <div style="font-size: 40px; margin-bottom: 8px;">🔬</div>
+          <h2 style="font-size: 18px; font-weight: 800;">پرونده شما در صف بررسی خانم دکتر است</h2>
+          <p style="font-size: 13px; opacity: 0.9; margin-top: 6px; line-height: 1.6;">
+            برخلاف رژیم‌های رباتیک و بی‌کیفیت، رژیم اختصاصی شما بر اساس جواب آزمایش و ویژگی‌های هورمونی توسط شخص خانم دکتر تنظیم می‌شود.
+          </p>
+          
+          <div class="waiting-clock" id="countdownClock">18:42:15</div>
+          <div style="font-size: 12px; opacity: 0.85;">زمان تقریبی تا آماده‌سازی کامل رژیم غذایی و ورزشی</div>
+
+          <div class="doctor-inspect-steps">
+            <div class="step-indicator done">
+              <div class="step-bullet">✓</div>
+              <span>دریافت مشخصات بیومتریک و سابقه پزشکی</span>
+            </div>
+            <div class="step-indicator done">
+              <div class="step-bullet">✓</div>
+              <span>بررسی برگه آزمایش خون و فاکتورهای تیروئید و قند</span>
+            </div>
+            <div class="step-indicator active">
+              <div class="step-bullet">⚙</div>
+              <span>آنالیز عکس‌های قبل و فرم بدنی توسط پزشک</span>
+            </div>
+            <div class="step-indicator">
+              <div class="step-bullet">⏳</div>
+              <span>محاسبه دقیق درشت‌مغذی‌ها و تنظیم پلن غذایی اختصاصی</span>
+            </div>
+            <div class="step-indicator">
+              <div class="step-bullet">⏳</div>
+              <span>تایید نهایی و بارگذاری در پنل مراجع</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">تست سریع در دمو (ویژه بررسی کارفرما)</div>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px;">
+            برای اینکه بتوانید فوراً خروجی تایید پزشک را تست کنید، می‌توانید از این دکمه شبیه‌ساز استفاده کنید:
+          </p>
+          <button class="btn-primary" onclick="simulateDoctorApproval()">
+            ⚡ شبیه‌سازی تایید فوری رژیم توسط خانم دکتر
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: MEDICAL INTAKE & 360 PHOTOS ================= -->
+      <section id="tab-intake" class="tab-pane">
+        <div class="card">
+          <div class="card-title">
+            <span>📋 پرونده پزشکی و آنالیز سلامت</span>
+            <span style="font-size: 11px; color: var(--primary);">زیر نظر پزشک</span>
+          </div>
+
+          <form id="intakeForm" onsubmit="saveIntake(event)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label class="form-label">قد (سانتی‌متر)</label>
+                <input type="number" id="userHeight" class="form-input" value="168" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">وزن فعلی (کیلوگرم)</label>
+                <input type="number" id="userWeight" class="form-input" value="78" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label class="form-label">سن</label>
+                <input type="number" id="userAge" class="form-input" value="31" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">وزن هدف (کیلوگرم)</label>
+                <input type="number" id="userTargetWeight" class="form-input" value="62" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">وضعیت چرخه قاعدگی بانوان</label>
+              <select id="userMenstrual" class="form-select">
+                <option value="regular">کاملاً منظم (۲۸ تا ۳۰ روزه)</option>
+                <option value="irregular">نامنظم / با تاخیر</option>
+                <option value="pco">دارای تنبلی تخمدان (PCOS)</option>
+                <option value="menopause">یائسگی</option>
+                <option value="male">مراجع آقا هستم</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">سابقه بیماری‌ها و حساسیت‌ها</label>
+              <input type="text" id="userConditions" class="form-input" value="کم‌کاری تیروئید خفیف (لووتیروکسین)، بدون آلرژی غذایی">
+            </div>
+
+            <!-- Blood Test Upload -->
+            <div class="form-group">
+              <label class="form-label">💉 آپلود برگه آزمایش خون (الزامی جهت بررسی پزشک)</label>
+              <div class="upload-zone" onclick="document.getElementById('bloodTestFile').click()">
+                <div style="font-size: 28px; margin-bottom: 4px;">📑</div>
+                <div style="font-size: 13px; font-weight: 700; color: var(--primary);">انتخاب تصویر یا فایل PDF آزمایش</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;" id="bloodTestFilename">فایل بارگذاری شده: Azmayesh-Khon-Tir98.pdf (تایید شده)</div>
+                <input type="file" id="bloodTestFile" style="display: none;" onchange="handleBloodTestUpload(event)">
+              </div>
+            </div>
+
+            <!-- 360 Degree Progress Photos (4 Angles) -->
+            <div class="form-group">
+              <label class="form-label">📸 تصاویر وضعیت بدنی (۴ زاویه روبرو، پشت و نیم‌رخ‌ها)</label>
+              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">
+                این تصاویر صرفاً توسط خانم دکتر برای ارزیابی افتادگی و چربی موضعی مشاهده شده و کاملاً محرمانه است.
+              </p>
+              
+              <div class="angles-grid">
+                <div class="angle-box">
+                  <div class="angle-title">۱. نمای روبرو (Front)</div>
+                  <div class="angle-preview" onclick="selectAnglePhoto('front')">
+                    <span id="preview-front">🧍‍♀️</span>
+                  </div>
+                </div>
+
+                <div class="angle-box">
+                  <div class="angle-title">۲. نیم‌رخ راست (Right)</div>
+                  <div class="angle-preview" onclick="selectAnglePhoto('right')">
+                    <span id="preview-right">🧍‍♀️</span>
+                  </div>
+                </div>
+
+                <div class="angle-box">
+                  <div class="angle-title">۳. نمای پشت (Back)</div>
+                  <div class="angle-preview" onclick="selectAnglePhoto('back')">
+                    <span id="preview-back">🧍‍♀️</span>
+                  </div>
+                </div>
+
+                <div class="angle-box">
+                  <div class="angle-title">۴. نیم‌رخ چپ (Left)</div>
+                  <div class="angle-preview" onclick="selectAnglePhoto('left')">
+                    <span id="preview-left">🧍‍♀️</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 14px;">
+              💾 ذخیره پرونده و ارسال برای خانم دکتر
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: FOLLOW-UP SIMULATOR ================= -->
+      <section id="tab-followup" class="tab-pane">
+        <div class="card">
+          <div class="card-title">
+            <span>🔔 موتور فالوآپ و پیگیری هوشمند</span>
+            <span style="font-size: 11px; color: #10b981;">نرخ پایبندی: ۹۳٪</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
+            همانطور که کارفرمای محترم تاکید کردند، عامل اصلی نتیجه‌گیری افراد در رژیم «فالوآپ و یادآوری منظم» است. در اینجا نمونه نوتیفیکیشن‌های روزانه طراحی شده را امتحان کنید:
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn-outline" onclick="triggerMockNotification('water')">
+              💧 شبیه‌ساز نوتیفیکیشن: «آب قبل از غذا رو خوردی؟»
+            </button>
+            <button class="btn-outline" onclick="triggerMockNotification('breath')">
+              🧘‍♀️ شبیه‌ساز نوتیفیکیشن: «۴ دور تنفس مربعی برای آرامش»
+            </button>
+            <button class="btn-outline" onclick="triggerMockNotification('workout')">
+              👟 شبیه‌ساز نوتیفیکیشن: «وقت ۲۰ دقیقه پیاده‌روی شادابه»
+            </button>
+            <button class="btn-outline" onclick="triggerMockNotification('cbt')">
+              📝 شبیه‌ساز نوتیفیکیشن: «جدول مزایای لاغریت رو امروز خوندی؟»
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">تنظیمات کانال‌های اطلاع‌رسانی</div>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+            <label style="display: flex; align-items: center; gap: 8px;">
+              <input type="checkbox" checked> دریافت پیامک سریع در صورت بسته بودن اپلیکیشن
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px;">
+              <input type="checkbox" checked> نوتیفیکیشن پوش مرورگر (Web Push)
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px;">
+              <input type="checkbox" checked> یادآوری ویس‌های انگیزشی صبحگاهی خانم دکتر
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: GAMIFICATION ================= -->
+      <section id="tab-rewards" class="tab-pane">
+        <div class="card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 12px; opacity: 0.9;">سطح انگیزه و سلامت شما</div>
+              <div style="font-size: 20px; font-weight: 900; margin-top: 4px;">رهروی پراراده (سطح ۲)</div>
+            </div>
+            <div style="font-size: 36px;">🏆</div>
+          </div>
+          <div style="margin-top: 14px; background: rgba(0, 0, 0, 0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px;">
+            امتیاز فعلی شما: <strong id="userTotalXp">۳۵۰</strong> امتیاز (۱۵۰ امتیاز تا باز شدن مدال بعدی)
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">نشان‌های افتخار و دستاوردها</div>
+          <div class="badges-grid">
+            <div class="badge-card unlocked">
+              <div class="badge-icon">💧</div>
+              <div class="badge-name">سفیر آب</div>
+              <div class="badge-status">کسب شده ✓</div>
+            </div>
+            <div class="badge-card unlocked">
+              <div class="badge-icon">🧘‍♀️</div>
+              <div class="badge-name">تنفس آرام</div>
+              <div class="badge-status">کسب شده ✓</div>
+            </div>
+            <div class="badge-card unlocked">
+              <div class="badge-icon">🥗</div>
+              <div class="badge-name">بشقاب سبز</div>
+              <div class="badge-status">کسب شده ✓</div>
+            </div>
+            <div class="badge-card">
+              <div class="badge-icon">🪑</div>
+              <div class="badge-name">تمرکز نشسته</div>
+              <div class="badge-status">در حال تکمیل</div>
+            </div>
+            <div class="badge-card">
+              <div class="badge-icon">📝</div>
+              <div class="badge-name">کارت مزایا</div>
+              <div class="badge-status">قفل در روز ۵</div>
+            </div>
+            <div class="badge-card">
+              <div class="badge-icon">🏅</div>
+              <div class="badge-name">هفته اول طلایی</div>
+              <div class="badge-status">قفل در روز ۷</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 6: FRIENDLY CHAT ================= -->
+      <section id="tab-chat" class="tab-pane">
+        <div class="chat-window">
+          <div style="padding: 10px 14px; background: white; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-size: 16px;">👩‍⚕️</div>
+            <div>
+              <div style="font-size: 13px; font-weight: 700;">دستیار و مشاور خانم دکتر</div>
+              <div style="font-size: 10px; color: #10b981;">پاسخگوی شما مثل یک دوست صمیمی</div>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-bubble doctor">
+              سلام دوست من! خسته نباشی. من و خانم دکتر اینجاییم تا هر سوال یا چالشی توی رژیم و تکنیک‌های روزت داری رو با هم حل کنیم. امروز چطور پیش رفت؟
+            </div>
+            <div class="chat-bubble user">
+              سلام خانم دکتر، تکنیک تنفس مربعی قبل از ناهار واقعا استرسم رو کم کرد. فقط سر کار گاهی یادم میره آب بخورم.
+            </div>
+            <div class="chat-bubble doctor">
+              آفرین به همتت! دقیقاً به همین خاطر روی گوشیت نوتیف یادآوری فرستادیم. بطری آب رو همیشه روی میز جلو چشمت بذار تا عادتت تثبیت بشه. عکس ناهارت رو هم بفرست تا بشقابت رو ببینم ❤️
+            </div>
+          </div>
+
+          <div class="chat-input-bar">
+            <input type="text" id="chatInput" class="chat-input" placeholder="پیام یا سوالت رو اینجا بنویس..." onkeypress="handleChatEnter(event)">
+            <button class="chat-send-btn" onclick="sendChatMessage()">➤</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="app-nav">
+      <button class="nav-item active" onclick="switchTab('tab-today', this)">
+        <span class="icon">🏠</span>
+        <span>برنامه امروز</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('tab-waiting', this)">
+        <span class="icon">⏳</span>
+        <span>صف پزشک</span>
+        <span class="nav-badge"></span>
+      </button>
+      <button class="nav-item" onclick="switchTab('tab-intake', this)">
+        <span class="icon">📋</span>
+        <span>پرونده سلامت</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('tab-followup', this)">
+        <span class="icon">🔔</span>
+        <span>فالوآپ‌ها</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('tab-rewards', this)">
+        <span class="icon">🏆</span>
+        <span>دستاوردها</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('tab-chat', this)">
+        <span class="icon">💬</span>
+        <span>چت همراه</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>کارتابل پزشکی | خانم دکتر مهدیه</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #090d16;
+      display: block;
+      padding: 24px 16px;
+    }
+    .portal-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .portal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .patient-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.2s;
+    }
+    .patient-row:hover {
+      background: #f8fafc;
+    }
+    .patient-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    @media (max-width: 850px) {
+      .patient-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .badge-status-wait {
+      background: #fef3c7;
+      color: #b45309;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-status-approved {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .prescription-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="portal-container">
+    
+    <div class="portal-header">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="font-size: 32px; background: #e0f2fe; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">🩺</div>
+        <div>
+          <h1 style="font-size: 20px; font-weight: 800; color: #0f172a;">پنل اختصاصی بررسی پرونده‌ها و صدور رژیم | دکتر مهدیه</h1>
+          <p style="font-size: 12px; color: #64748b; margin-top: 4px;">مدیریت مراجعین، آزمایش‌های خون و پرونده‌های در انتظار تایید</p>
+        </div>
+      </div>
+      <div>
+        <a href="index.html" style="text-decoration: none; background: #0d9488; color: white; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+          <span>📱</span>
+          <span>مشاهده نمای اپلیکیشن مراجع</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Active Patient Review Focus -->
+    <div class="patient-grid">
+      
+      <!-- Patient Medical Dossier -->
+      <div class="card" style="margin-bottom: 0;">
+        <div class="card-title">
+          <span>📑 پرونده سلامت مراجع انتخابی</span>
+          <span class="badge-status-wait">در انتظار تایید رژیم (۶ تا ۲۴ ساعت)</span>
+        </div>
+
+        <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 16px; background: #f1f5f9; padding: 12px; border-radius: 12px;">
+          <div style="font-size: 28px;">👩</div>
+          <div>
+            <div style="font-size: 15px; font-weight: 800;">سارا محمدی</div>
+            <div style="font-size: 12px; color: #64748b;">۳۱ ساله • قد: ۱۶۸ سانتی‌متر • وزن اولیه: ۷۸ کیلوگرم • هدف: ۶۲ کیلوگرم</div>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; line-height: 1.8; color: #334155; margin-bottom: 16px;">
+          <div><strong>چرخه هورمونی / قاعدگی:</strong> دارای سندروم تخمدان پلی‌کیستیک (PCOS)</div>
+          <div><strong>سابقه بیماری:</strong> کم‌کاری تیروئید تحت کنترل با لووتیروکسین</div>
+          <div><strong>آزمایش خون پیوست شده:</strong> 
+            <span style="color: #0284c7; text-decoration: underline; cursor: pointer;" onclick="alert('برگه آزمایش با موفقیت باز شد:\n- TSH: 2.8 (نرمال)\n- FBS: 94\n- ویتامین D: 18 (نیازمند مکمل ۵۰۰۰۰)\n- کلسترول: 195')">
+              Azmayesh_Khon_Sara_Mohammadi.pdf (کلیک جهت مشاهده فاکتورها)
+            </span>
+          </div>
+        </div>
+
+        <!-- 360 Degree Photo Review -->
+        <div style="margin-top: 14px;">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">تصاویر ارزیابی زاویه‌ای (روبرو، پشت و نیم‌رخ‌ها):</div>
+          <div class="angles-grid">
+            <div class="angle-box">
+              <div class="angle-title">روبرو (Front)</div>
+              <div class="angle-preview" style="font-size: 13px; color: #0284c7;">🧍‍♀️ روبرو (تایید شد)</div>
+            </div>
+            <div class="angle-box">
+              <div class="angle-title">نیم‌رخ راست</div>
+              <div class="angle-preview" style="font-size: 13px; color: #0284c7;">🧍‍♀️ نیم‌رخ (تایید شد)</div>
+            </div>
+            <div class="angle-box">
+              <div class="angle-title">پشت (Back)</div>
+              <div class="angle-preview" style="font-size: 13px; color: #0284c7;">🧍‍♀️ پشت (تایید شد)</div>
+            </div>
+            <div class="angle-box">
+              <div class="angle-title">نیم‌رخ چپ</div>
+              <div class="angle-preview" style="font-size: 13px; color: #0284c7;">🧍‍♀️ نیم‌رخ (تایید شد)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doctor Prescription & Plan Assignment -->
+      <div class="prescription-box">
+        <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 14px;">
+          ✍️ تنظیم و تایید برنامه اختصاصی توسط خانم دکتر
+        </h3>
+
+        <div class="form-group">
+          <label class="form-label">الگوی متابولیک محاسبه شده</label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px;">
+            <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; text-align: center;">
+              <div style="font-size: 10px; color: #64748b;">کالری هدف</div>
+              <div style="font-size: 14px; font-weight: 800; color: #0f766e;">1550 Kcal</div>
+            </div>
+            <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; text-align: center;">
+              <div style="font-size: 10px; color: #64748b;">پروتئین روزانه</div>
+              <div style="font-size: 14px; font-weight: 800; color: #0284c7;">95 گرم</div>
+            </div>
+            <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; text-align: center;">
+              <div style="font-size: 10px; color: #64748b;">کربوهیدرات پیچیده</div>
+              <div style="font-size: 14px; font-weight: 800; color: #f59e0b;">130 گرم</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">پروتکل غذایی اختصاصی</label>
+          <textarea class="form-textarea" rows="3">رژیم با شاخص گلایسمی پایین (Low GI) متناسب با PCOS. صبحانه پروتئینی، ناهار با رعایت قانون نیمه سبزیجات، شام سبک قبل از ساعت ۲۰:۳۰. مکمل ویتامین D هفته‌ای یک عدد ۵۰۰۰۰ واحد.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">توصیه ورزشی دوره</label>
+          <input type="text" class="form-input" value="روزانه ۲۰ دقیقه پیاده‌روی تند بعد از عصرانه + ۳ روز در هفته تمرین مقاومتی در منزل">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">پیام و ویس اختصاصی خانم دکتر برای مراجع</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" class="form-input" value="سارا جان، آزمایش و عکست رو دیدم. متابولیسمت عالیه و با اجرای ۹۰ تکنیک به راحتی به ۶۲ کیلو می‌رسی!">
+            <button class="btn-sm-action" style="white-space: nowrap; padding: 0 12px;" onclick="alert('ویس اختصاصی شما ضبط شد و به برنامه مراجع پیوست گردید.')">🎙 ضبط ویس</button>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="margin-top: 14px;" onclick="approvePatientPlan()">
+          ✅ تایید نهایی رژیم و ارسال نوتیفیکیشن پیامکی به بیمار
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Patient Queue Table -->
+    <div style="margin-top: 32px;">
+      <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 14px; color: #0f172a;">لیست سایر مراجعین کلینیک</h3>
+      
+      <div style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; background: #f8fafc; padding: 12px 18px; font-size: 12px; font-weight: 700; color: #64748b;">
+          <div>نام مراجع</div>
+          <div>وضعیت پرونده</div>
+          <div>روز رژیم</div>
+          <div>پایبندی به تکنیک‌ها</div>
+          <div>عملیات</div>
+        </div>
+
+        <div class="patient-row">
+          <div><strong>سارا محمدی</strong> <span style="font-size: 11px; color: #94a3b8;">(۰۹۱۲۳۴۵۶۷۸۹)</span></div>
+          <div><span class="badge-status-wait" id="saraStatusBadge">در صف انتظار</span></div>
+          <div>روز ۱</div>
+          <div>۱۰۰٪ (تکنیک آب فعال)</div>
+          <div>
+            <button class="btn-sm-action" onclick="alert('پرونده سارا محمدی در فرم بالا فراخوانی شده است.')">مشاهده پرونده</button>
+          </div>
+        </div>
+
+        <div class="patient-row">
+          <div><strong>مریم رضایی</strong> <span style="font-size: 11px; color: #94a3b8;">(۰۹۱۹۸۷۶۵۴۳۲)</span></div>
+          <div><span class="badge-status-approved">فعال و در حال اجرا</span></div>
+          <div>روز ۵</div>
+          <div>۸۸٪ (کارت مزایا ثبت شد)</div>
+          <div>
+            <button class="btn-sm-action" onclick="alert('تکلیف روز ۵ مریم رضایی: ۳ مزیت اصلی ثبت شده و تایید گردید.')">بررسی تکلیف</button>
+          </div>
+        </div>
+
+        <div class="patient-row">
+          <div><strong>نیلوفر شمس</strong> <span style="font-size: 11px; color: #94a3b8;">(۰۹۱۲۰۱۱۲۲۳۳)</span></div>
+          <div><span class="badge-status-approved">فعال و در حال اجرا</span></div>
+          <div>روز ۷</div>
+          <div>۹۵٪ (کاهش ۱.۶ کیلو در هفته اول)</div>
+          <div>
+            <button class="btn-sm-action" onclick="alert('وزن‌کشی هفته اول نیلوفر شمس: از ۷۵.۵ به ۷۳.۹ کیلوگرم رسید. نمودار رشد به مراجع ارسال شد.')">بررسی وزن‌کشی</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function approvePatientPlan() {
+      document.getElementById('saraStatusBadge').className = 'badge-status-approved';
+      document.getElementById('saraStatusBadge').textContent = 'تایید شد و فعال گردید';
+      alert('✅ برنامه رژیم اختصاصی سارا محمدی با موفقیت تایید شد!\n\nپیامک زیر برای مراجع ارسال گردید:\n«سارا عزیز، رژیم و برنامه ورزشی اختصاصی شما توسط خانم دکتر تنظیم و در اپلیکیشن فعال شد. هم‌اکنون می‌توانید وارد پنل شوید.»');
+    }
+  </script>
+</body>
+</html>
