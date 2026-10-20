@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient: Deep Dark Sleek Slate with Emerald/Teal Glow -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+
+    <!-- Shock Lightning Glow: Intense Golden Amber to Electric Yellow -->
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="40%" stop-color="#facc15"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+
+    <!-- Neon Glow Filter -->
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur1"/>
+      <feGaussianBlur stdDeviation="28" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft Drop Shadow -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#f59e0b" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- App Rounded Squircle Container -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle Outer Energy Ring -->
+  <circle cx="256" cy="230" r="180" fill="none" stroke="rgba(245, 158, 11, 0.18)" stroke-width="4" stroke-dasharray="12 8"/>
+  <circle cx="256" cy="230" r="150" fill="none" stroke="rgba(16, 185, 129, 0.25)" stroke-width="2"/>
+
+  <!-- Glowing Shock Lightning Bolt ⚡ -->
+  <g filter="url(#shadow)">
+    <!-- Main Bolt Path -->
+    <path d="M 285,75 
+             L 165,250 
+             L 255,250 
+             L 215,405 
+             L 360,215 
+             L 270,215 
+             Z" 
+          fill="url(#boltGrad)" 
+          filter="url(#neonGlow)"/>
+  </g>
+
+  <!-- Inner High-Voltage White Core -->
+  <path d="M 282,90 
+           L 182,245 
+           L 260,245 
+           L 225,385 
+           L 345,220 
+           L 272,220 
+           Z" 
+        fill="#ffffff" 
+        opacity="0.75"/>
+
+  <!-- Brand Typography: SHOCK -->
+  <text x="256" y="465" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="46" 
+        font-weight="900" 
+        letter-spacing="10" 
+        fill="#f8fafc" 
+        text-anchor="middle">
+    SHOCK
+  </text>
+  <text x="256" y="492" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="14" 
+        font-weight="700" 
+        letter-spacing="4" 
+        fill="#10b981" 
+        text-anchor="middle">
+    DR. MADIS
+  </text>
+</svg>

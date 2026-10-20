@@ -963,3 +963,106 @@ body {
   background: #fffbeb;
 }
 
+
+
+/* Splash Screen (Shock ⚡) */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.splash-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-content {
+  text-align: center;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.splash-bolt-glow {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.15);
+  border: 2px solid rgba(245, 158, 11, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 35px rgba(245, 158, 11, 0.5);
+  animation: boltPulse 1.6s infinite alternate;
+  margin-bottom: 16px;
+}
+
+.splash-bolt {
+  font-size: 48px;
+  filter: drop-shadow(0 0 12px #facc15);
+}
+
+@keyframes boltPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+  100% { transform: scale(1.08); box-shadow: 0 0 45px rgba(245, 158, 11, 0.8); }
+}
+
+.splash-title {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+  margin-bottom: 6px;
+}
+
+.splash-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 4px;
+}
+
+.splash-doctor {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 24px;
+}
+
+.splash-loader-bar {
+  width: 160px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.splash-loader-progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #10b981);
+  border-radius: 4px;
+  animation: splashLoad 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes splashLoad {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+.splash-domain {
+  font-size: 11px;
+  color: #64748b;
+  letter-spacing: 1px;
+}

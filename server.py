@@ -98,8 +98,8 @@ class CustomHTTPHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             resp = {
                 "status": "online",
-                "doctor": "خانم دکتر مهدیه",
-                "clinic": "کلینیک تخصصی رژیم و تغییر سبک زندگی ۹۰ روزه",
+                "doctor": "دکتر مهدیس",
+                "clinic": "متد شوک لاغری و سبک زندگی ۹۰ روزه (Drmadis.com)",
                 "time": datetime.now().isoformat()
             }
             self.wfile.write(json.dumps(resp, ensure_ascii=False).encode("utf-8"))
@@ -199,6 +199,7 @@ if __name__ == "__main__":
     print(f"📱 Patient Web App: http://localhost:{PORT}/index.html")
     print(f"🩺 Doctor Portal:   http://localhost:{PORT}/doctor.html")
     
+    socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), CustomHTTPHandler) as httpd:
         try:
             httpd.serve_forever()

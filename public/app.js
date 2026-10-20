@@ -118,7 +118,7 @@ const defaultTechniques = [
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch('/data/techniques.json');
+    const res = await fetch('data/techniques.json');
     if (res.ok) {
       techniquesData = await res.json();
     } else {
@@ -422,4 +422,48 @@ function sendChatMessage() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }, 1000);
 }
+
+// Splash Screen auto-dismissal
+function dismissSplash() {
+  const splash = document.getElementById('splashScreen');
+  if (splash) {
+    splash.classList.add('fade-out');
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 500);
+  }
+}
+
+// Auto hide splash after 1.8 seconds
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(dismissSplash, 1800);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then((reg) => {
+      console.log('Service Worker registered successfully:', reg.scope);
+    }).catch((err) => {
+      console.log('Service Worker registration failed:', err);
+    });
+  });
+}
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('installAppBanner');
+  if (banner) {
+    banner.style.display = 'flex';
+    document.getElementById('installAppBtn').onclick = async () => {
+      banner.style.display = 'none';
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to install: ${outcome}`);
+      deferredPrompt = null;
+    };
+  }
+});
+
 

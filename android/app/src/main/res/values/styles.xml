@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.MahdisApp" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#0d9488</item>
+        <item name="android:navigationBarColor">#0f172a</item>
+    </style>
+</resources>
+
