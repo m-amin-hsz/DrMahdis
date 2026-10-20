@@ -43,3 +43,4 @@ python3 server.py
 سپس در مرورگر خود باز کنید:
 - **نمای مراجع (PWA):** `http://localhost:8080/index.html`
 - **پنل پزشک (کارتابل خانم دکتر):** `http://localhost:8080/doctor.html`
+
