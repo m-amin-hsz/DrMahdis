@@ -428,16 +428,19 @@ function applyLanguage(lang) {
   const installBtn = document.getElementById('installAppBtn');
   if (installBtn) installBtn.textContent = dict.installBtn;
 
-  // Bottom Tabs
-  const navItems = document.querySelectorAll('.app-nav .nav-item span:last-child');
-  if (navItems.length >= 6) {
-    navItems[0].textContent = dict.tabToday;
-    navItems[1].textContent = dict.tabWaiting;
-    navItems[2].textContent = dict.tabIntake;
-    navItems[3].textContent = dict.tabFollowup;
-    navItems[4].textContent = dict.tabRewards;
-    navItems[5].textContent = dict.tabChat;
-  }
+  // Bottom Tabs (Explicit IDs to prevent badge shift)
+  const lToday = document.getElementById('navLabelToday');
+  if (lToday) lToday.textContent = dict.tabToday;
+  const lWaiting = document.getElementById('navLabelWaiting');
+  if (lWaiting) lWaiting.textContent = dict.tabWaiting;
+  const lIntake = document.getElementById('navLabelIntake');
+  if (lIntake) lIntake.textContent = dict.tabIntake;
+  const lFollowup = document.getElementById('navLabelFollowup');
+  if (lFollowup) lFollowup.textContent = dict.tabFollowup;
+  const lRewards = document.getElementById('navLabelRewards');
+  if (lRewards) lRewards.textContent = dict.tabRewards;
+  const lChat = document.getElementById('navLabelChat');
+  if (lChat) lChat.textContent = dict.tabChat;
 
   // Update Auth Modal labels
   updateAuthModalLabels(dict);
@@ -898,9 +901,15 @@ function triggerMockNotification(type) {
   }
 
   toast.classList.add('show');
-  setTimeout(() => {
+  clearTimeout(window.notifTimeout);
+  window.notifTimeout = setTimeout(() => {
     toast.classList.remove('show');
   }, 4000);
+}
+
+function dismissNotification() {
+  const toast = document.getElementById('notifToast');
+  if (toast) toast.classList.remove('show');
 }
 
 // Intake Form & 360 Photos

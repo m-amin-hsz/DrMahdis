@@ -36,10 +36,11 @@
   <!-- Mock Push Notification Toast -->
   <div id="notifToast" class="notif-toast">
     <div class="notif-icon" id="notifIcon">⚡</div>
-    <div>
+    <div style="flex: 1; min-width: 0;">
       <div class="notif-title" id="notifTitle">یادآور متد شوک دکتر مهدیس</div>
       <div class="notif-body" id="notifBody">سلام عزیزم! ۱۵ دقیقه تا ناهار مونده، ۲ لیوان آب ولرم و ۴ دور تنفس مربعی یادت نره.</div>
     </div>
+    <button class="notif-close-btn" onclick="dismissNotification()" title="بستن / Close">✕</button>
   </div>
 
   <div class="app-container">
@@ -487,28 +488,28 @@
     <nav class="app-nav">
       <button class="nav-item active" onclick="switchTab('tab-today', this)">
         <span class="icon">🏠</span>
-        <span>برنامه امروز</span>
+        <span class="nav-label" id="navLabelToday">برنامه امروز</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-waiting', this)">
         <span class="icon">⏳</span>
-        <span>صف پزشک</span>
+        <span class="nav-label" id="navLabelWaiting">صف پزشک</span>
         <span class="nav-badge"></span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-intake', this)">
         <span class="icon">📋</span>
-        <span>پرونده سلامت</span>
+        <span class="nav-label" id="navLabelIntake">پرونده سلامت</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-followup', this)">
         <span class="icon">🔔</span>
-        <span>فالوآپ‌ها</span>
+        <span class="nav-label" id="navLabelFollowup">فالوآپ‌ها</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-rewards', this)">
         <span class="icon">🏆</span>
-        <span>دستاوردها</span>
+        <span class="nav-label" id="navLabelRewards">دستاوردها</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-chat', this)">
         <span class="icon">💬</span>
-        <span>چت همراه</span>
+        <span class="nav-label" id="navLabelChat">چت همراه</span>
       </button>
     </nav>
 
