@@ -2,7 +2,9 @@
   "name": "Shock | متد شوک دکتر مهدیس",
   "short_name": "Shock",
   "description": "متد شوک لاغری و اصلاح سبک زندگی ۹۰ روزه زیر نظر مستقیم دکتر مهدیس",
-  "start_url": "./index.html",
+  "start_url": "index.html",
+  "id": "index.html",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#090d16",
@@ -11,16 +13,28 @@
   "lang": "fa-IR",
   "icons": [
     {
-      "src": "icons/shock.jpg",
-      "sizes": "512x512 1600x1600",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "icons/icon.svg",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/shock.jpg",
+      "sizes": "1600x1600",
+      "type": "image/jpeg",
+      "purpose": "any"
     }
   ]
 }

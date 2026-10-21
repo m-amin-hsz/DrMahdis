@@ -1,12 +1,17 @@
 // Service Worker for Diet & Lifestyle PWA (Supports Custom Domains & GitHub Pages Subpaths)
-const CACHE_NAME = 'shock-diet-v1';
+const CACHE_NAME = 'shock-diet-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './doctor.html',
+  './download.html',
   './style.css',
   './app.js',
   './manifest.json',
+  './icons/shock.jpg',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
   './icons/icon.svg',
   './data/techniques.json'
 ];
@@ -48,8 +53,8 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'متد شوک | دکتر مهدیس';
   const options = {
     body: data.body || 'یادآور تکنیک امروز شما آماده است ⚡',
-    icon: 'icons/icon.svg',
-    badge: 'icons/icon.svg',
+    icon: 'icons/icon-192.png',
+    badge: 'icons/icon-192.png',
     dir: 'rtl',
     lang: 'fa-IR',
     vibrate: [200, 100, 200]
