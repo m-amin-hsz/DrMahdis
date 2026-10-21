@@ -62,6 +62,30 @@ def init_db():
     )
     """)
 
+    # Users / Auth table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        identifier TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        age INTEGER,
+        height REAL,
+        weight REAL,
+        target_weight REAL,
+        role TEXT DEFAULT 'patient',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    # Seed demo user if empty
+    cursor.execute("SELECT COUNT(*) FROM users")
+    if cursor.fetchone()[0] == 0:
+        cursor.execute("""
+        INSERT INTO users (name, identifier, password, age, height, weight, target_weight)
+        VALUES ('سارا محمدی', '09123456789', '123456', 31, 168, 78, 62)
+        """)
+
     # Seed demo patient if empty
     cursor.execute("SELECT COUNT(*) FROM patients")
     if cursor.fetchone()[0] == 0:
@@ -146,6 +170,89 @@ class CustomHTTPHandler(http.server.SimpleHTTPRequestHandler):
             body = json.loads(post_data.decode("utf-8")) if post_data else {}
         except Exception:
             body = {}
+
+        if path == "/api/auth/signup":
+            name = body.get("name", "").strip()
+            identifier = body.get("identifier", "").strip()
+            password = body.get("password", "").strip()
+            age = int(body.get("age", 30))
+            height = float(body.get("height", 165))
+            weight = float(body.get("weight", 70))
+            target_weight = float(body.get("target_weight", 60))
+
+            if not name or not identifier or not password:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": "لطفاً نام، شناسه و رمز عبور را وارد کنید."}, ensure_ascii=False).encode("utf-8"))
+                return
+
+            conn = sqlite3.connect(DB_PATH)
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            try:
+                cursor.execute("""
+                INSERT INTO users (name, identifier, password, age, height, weight, target_weight)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (name, identifier, password, age, height, weight, target_weight))
+                user_id = cursor.lastrowid
+                
+                # Also create initial patient profile
+                cursor.execute("""
+                INSERT OR IGNORE INTO patients (name, phone, age, height, weight, target_weight, status)
+                VALUES (?, ?, ?, ?, ?, ?, 'waiting_review')
+                """, (name, identifier, age, height, weight, target_weight))
+                
+                conn.commit()
+                cursor.execute("SELECT id, name, identifier, age, height, weight, target_weight, created_at FROM users WHERE id = ?", (user_id,))
+                user_data = dict(cursor.fetchone())
+                conn.close()
+
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True, "user": user_data}, ensure_ascii=False).encode("utf-8"))
+                return
+            except sqlite3.IntegrityError:
+                conn.close()
+                self.send_response(409)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": "این شماره موبایل یا ایمیل قبلاً ثبت نام کرده است."}, ensure_ascii=False).encode("utf-8"))
+                return
+
+        if path == "/api/auth/signin":
+            identifier = body.get("identifier", "").strip()
+            password = body.get("password", "").strip()
+
+            conn = sqlite3.connect(DB_PATH)
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute("""
+            SELECT id, name, identifier, age, height, weight, target_weight, created_at 
+            FROM users WHERE identifier = ? AND password = ?
+            """, (identifier, password))
+            row = cursor.fetchone()
+            conn.close()
+
+            if row:
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True, "user": dict(row)}, ensure_ascii=False).encode("utf-8"))
+            else:
+                self.send_response(401)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": "شماره یا رمز عبور اشتباه است."}, ensure_ascii=False).encode("utf-8"))
+            return
+
+        if path == "/api/auth/signout":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": True, "message": "با موفقیت خارج شدید."}, ensure_ascii=False).encode("utf-8"))
+            return
 
         if path == "/api/onboarding":
             conn = sqlite3.connect(DB_PATH)

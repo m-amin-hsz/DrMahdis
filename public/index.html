@@ -59,12 +59,26 @@
         </div>
       </div>
       <div class="header-actions">
+        <!-- Language Switcher (FA / EN) -->
+        <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" title="Switch Language / تغییر زبان">
+          <span>🌐</span>
+          <span id="langLabel">EN</span>
+        </button>
+
+        <!-- User Authentication Chip/Button -->
+        <div id="userAuthContainer">
+          <button class="user-auth-btn" onclick="openAuthModal('signin')">
+            <span>👤</span>
+            <span id="authBtnText">ورود</span>
+          </button>
+        </div>
+
         <a href="download.html" style="font-size: 11px; text-decoration: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: #090d16; padding: 4px 8px; border-radius: 8px; font-weight: 800; display: inline-flex; align-items: center; gap: 3px;">
           <span>📥</span>
-          <span>دانلود APK</span>
+          <span id="downloadBtnText">APK</span>
         </a>
         <a href="doctor.html" style="font-size: 11px; text-decoration: none; background: #090d16; color: #facc15; border: 1px solid #f59e0b; padding: 4px 8px; border-radius: 8px; font-weight: 700;">
-          پنل پزشک ⚡
+          <span>⚡</span>
         </a>
       </div>
     </header>
@@ -498,6 +512,90 @@
       </button>
     </nav>
 
+  </div>
+
+  <!-- Auth Modal (Sign In / Sign Up) -->
+  <div id="authModalOverlay" class="auth-modal-overlay">
+    <div class="auth-modal">
+      <button class="auth-modal-close" onclick="closeAuthModal()">✕</button>
+      
+      <div style="text-align: center; margin-bottom: 12px;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px; border: 2px solid #f59e0b; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);">
+          <img src="icons/shock.jpg" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <h3 id="authModalTitle" style="font-size: 18px; font-weight: 900;">ورود به متد شوک</h3>
+        <p id="authModalSubtitle" style="font-size: 12px; color: #64748b;">حساب اختصاصی مراجعین دکتر مهدیس</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button id="tabBtnSignIn" class="auth-tab-btn active" onclick="switchAuthTab('signin')">ورود (Sign In)</button>
+        <button id="tabBtnSignUp" class="auth-tab-btn" onclick="switchAuthTab('signup')">ثبت‌نام (Sign Up)</button>
+      </div>
+
+      <div id="authMsg" class="auth-msg"></div>
+
+      <!-- Sign In Form -->
+      <form id="signInForm" class="auth-form active" onsubmit="handleSignIn(event)">
+        <div class="form-group">
+          <label id="lblSignInPhone" class="form-label">شماره موبایل یا ایمیل</label>
+          <input type="text" id="signInIdentifier" class="form-input" placeholder="09123456789 یا email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label id="lblSignInPass" class="form-label">رمز عبور</label>
+          <input type="password" id="signInPassword" class="form-input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" id="btnSignInSubmit" class="btn-primary" style="margin-top: 14px;">
+          ورود به پنل کاربری
+        </button>
+        <p style="font-size: 12px; text-align: center; color: #64748b; margin-top: 14px;">
+          <span id="txtNoAccount">حساب کاربری ندارید؟</span>
+          <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color: var(--primary); font-weight: 700; text-decoration: none;" id="lnkGoSignUp">ثبت‌نام کنید</a>
+        </p>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form id="signUpForm" class="auth-form" onsubmit="handleSignUp(event)">
+        <div class="form-group">
+          <label id="lblSignUpName" class="form-label">نام و نام خانوادگی</label>
+          <input type="text" id="signUpName" class="form-input" placeholder="مثال: سارا محمدی" required>
+        </div>
+        <div class="form-group">
+          <label id="lblSignUpPhone" class="form-label">شماره موبایل یا ایمیل</label>
+          <input type="text" id="signUpIdentifier" class="form-input" placeholder="0912... یا email@example.com" required>
+        </div>
+        <div class="form-group">
+          <label id="lblSignUpPass" class="form-label">رمز عبور (حداقل ۶ کاراکتر)</label>
+          <input type="password" id="signUpPassword" class="form-input" placeholder="••••••••" minlength="6" required>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="form-group">
+            <label id="lblSignUpAge" class="form-label">سن</label>
+            <input type="number" id="signUpAge" class="form-input" value="30" required>
+          </div>
+          <div class="form-group">
+            <label id="lblSignUpHeight" class="form-label">قد (سانتی‌متر)</label>
+            <input type="number" id="signUpHeight" class="form-input" value="168" required>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div class="form-group">
+            <label id="lblSignUpWeight" class="form-label">وزن فعلی (kg)</label>
+            <input type="number" id="signUpWeight" class="form-input" value="75" required>
+          </div>
+          <div class="form-group">
+            <label id="lblSignUpTarget" class="form-label">وزن هدف (kg)</label>
+            <input type="number" id="signUpTarget" class="form-input" value="60" required>
+          </div>
+        </div>
+        <button type="submit" id="btnSignUpSubmit" class="btn-primary" style="margin-top: 14px;">
+          ایجاد حساب و آغاز متد شوک
+        </button>
+        <p style="font-size: 12px; text-align: center; color: #64748b; margin-top: 14px;">
+          <span id="txtHaveAccount">قبلاً ثبت‌نام کرده‌اید؟</span>
+          <a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color: var(--primary); font-weight: 700; text-decoration: none;" id="lnkGoSignIn">وارد شوید</a>
+        </p>
+      </form>
+    </div>
   </div>
 
   <script>
