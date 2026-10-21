@@ -11,6 +11,7 @@ import json
 import sqlite3
 import urllib.parse
 from datetime import datetime
+from ai_engine import ai_service
 
 PORT = int(os.environ.get("PORT", 8080))
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -279,6 +280,33 @@ class CustomHTTPHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             resp = {"success": True, "message": "پرونده شما در صف بررسی خانم دکتر قرار گرفت."}
             self.wfile.write(json.dumps(resp, ensure_ascii=False).encode("utf-8"))
+            return
+
+        if path == "/api/ai/analyze-lab":
+            analysis = ai_service.analyze_lab_test(body)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps(analysis, ensure_ascii=False).encode("utf-8"))
+            return
+
+        if path == "/api/ai/suggest-plan":
+            plan = ai_service.generate_nutrition_plan(body)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps(plan, ensure_ascii=False).encode("utf-8"))
+            return
+
+        if path == "/api/ai/chat":
+            message = body.get("message", "")
+            profile = body.get("profile", {})
+            lang = body.get("lang", "fa")
+            reply = ai_service.chat_companion(message, profile, lang)
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(json.dumps({"reply": reply}, ensure_ascii=False).encode("utf-8"))
             return
 
         if path == "/api/doctor/approve":

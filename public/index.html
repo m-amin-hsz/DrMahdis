@@ -23,8 +23,8 @@
         <img src="icons/shock.jpg" alt="Shock ⚡" class="splash-image">
       </div>
       <h1 class="splash-title">SHOCK</h1>
-      <p class="splash-subtitle">متد اختصاصی تغییر سبک زندگی و لاغری</p>
-      <div class="splash-doctor">زیر نظر مستقیم دکتر مهدیس</div>
+      <p class="splash-subtitle" data-i18n="splashSubtitle">متد اختصاصی تغییر سبک زندگی و لاغری</p>
+      <div class="splash-doctor" data-i18n="splashDoctor">زیر نظر مستقیم دکتر مهدیس</div>
       
       <div class="splash-loader-bar">
         <div class="splash-loader-progress"></div>
@@ -37,8 +37,8 @@
   <div id="notifToast" class="notif-toast">
     <div class="notif-icon" id="notifIcon">⚡</div>
     <div style="flex: 1; min-width: 0;">
-      <div class="notif-title" id="notifTitle">یادآور متد شوک دکتر مهدیس</div>
-      <div class="notif-body" id="notifBody">سلام عزیزم! ۱۵ دقیقه تا ناهار مونده، ۲ لیوان آب ولرم و ۴ دور تنفس مربعی یادت نره.</div>
+      <div class="notif-title" id="notifTitle" data-i18n="notifDefaultTitle">یادآور متد شوک دکتر مهدیس</div>
+      <div class="notif-body" id="notifBody" data-i18n="notifDefaultBody">سلام عزیزم! ۱۵ دقیقه تا ناهار مونده، ۲ لیوان آب ولرم و ۴ دور تنفس مربعی یادت نره.</div>
     </div>
     <button class="notif-close-btn" onclick="dismissNotification()" title="بستن / Close">✕</button>
   </div>
@@ -55,8 +55,8 @@
           <div class="online-dot"></div>
         </div>
         <div class="brand-text">
-          <h1>متد شوک | دکتر مهدیس</h1>
-          <p>Drmadis.com • لایف‌استایل و رژیم ۹۰ روزه</p>
+          <h1 data-i18n="brandTitle">متد شوک | دکتر مهدیس</h1>
+          <p data-i18n="brandSubtitle">Drmadis.com • لایف‌استایل و رژیم ۹۰ روزه</p>
         </div>
       </div>
       <div class="header-actions">
@@ -70,13 +70,13 @@
         <div id="userAuthContainer">
           <button class="user-auth-btn" onclick="openAuthModal('signin')">
             <span>👤</span>
-            <span id="authBtnText">ورود</span>
+            <span id="authBtnText" data-i18n="authBtnSignIn">ورود</span>
           </button>
         </div>
 
         <a href="download.html" style="font-size: 11px; text-decoration: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: #090d16; padding: 4px 8px; border-radius: 8px; font-weight: 800; display: inline-flex; align-items: center; gap: 3px;">
           <span>📥</span>
-          <span id="downloadBtnText">APK</span>
+          <span id="downloadBtnText" data-i18n="downloadApk">APK</span>
         </a>
         <a href="doctor.html" style="font-size: 11px; text-decoration: none; background: #090d16; color: #facc15; border: 1px solid #f59e0b; padding: 4px 8px; border-radius: 8px; font-weight: 700;">
           <span>⚡</span>
@@ -92,15 +92,15 @@
         <div style="display: flex; align-items: center; gap: 10px;">
           <span style="font-size: 24px; filter: drop-shadow(0 0 6px #f59e0b);">⚡</span>
           <div>
-            <div style="font-size: 13px; font-weight: 800; color: #fde047;">نصب اپلیکیشن Shock روی گوشی</div>
-            <div style="font-size: 10px; opacity: 0.9;">دسترسی سریع، بدون نوار مرورگر و آفلاین</div>
+            <div style="font-size: 13px; font-weight: 800; color: #fde047;" data-i18n="installBannerTitle">نصب اپلیکیشن Shock روی گوشی</div>
+            <div style="font-size: 10px; opacity: 0.9;" data-i18n="installBannerSub">دسترسی سریع، بدون نوار مرورگر و آفلاین</div>
           </div>
         </div>
         <div style="display: flex; gap: 6px;">
-          <button id="installAppBtn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #090d16; border: none; padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+          <button id="installAppBtn" data-i18n="installBtn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #090d16; border: none; padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 900; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
             نصب سریع
           </button>
-          <a href="download.html" style="background: rgba(255,255,255,0.1); color: #f8fafc; border: 1px solid rgba(255,255,255,0.2); padding: 7px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; text-decoration: none;">
+          <a href="download.html" data-i18n="downloadApkBtn" style="background: rgba(255,255,255,0.1); color: #f8fafc; border: 1px solid rgba(255,255,255,0.2); padding: 7px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; text-decoration: none;">
             دانلود APK
           </a>
         </div>
@@ -117,7 +117,7 @@
         <!-- Technique Hero Card -->
         <div class="technique-hero">
           <div class="technique-tag">
-            <span>✨ تکنیک روز <span id="currentDayNum">۱</span> از ۹۰</span>
+            <span>✨ <span data-i18n="techniquePrefix">تکنیک روز</span> <span id="currentDayNum">۱</span> <span data-i18n="techniqueOf90">از ۹۰</span></span>
             <span style="opacity: 0.6;">•</span>
             <span id="techniqueCategory">هیدراتاسیون و هضم</span>
           </div>
@@ -146,11 +146,11 @@
         <div class="habit-stack-section">
           <div class="stack-header">
             <div class="stack-title">
-              <span>🎯 وظایف انباشتی امروز</span>
+              <span data-i18n="tasksHeader">🎯 وظایف انباشتی امروز</span>
             </div>
             <div class="stack-count" id="completedTasksRatio">۰ از ۱ انجام شده</div>
           </div>
-          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;" data-i18n="tasksDesc">
             تکنیک‌های هر روز به روزهای قبل اضافه می‌شوند تا سبک زندگی ماندگار شکل بگیرد:
           </p>
           <div class="task-list" id="taskList">
@@ -162,10 +162,10 @@
         <div class="trackers-grid">
           <div class="tracker-card">
             <div class="tracker-header">
-              <span class="tracker-name">💧 آب مصرفی</span>
-              <span style="font-size: 11px; color: #0284c7;">هدف: ۸ لیوان</span>
+              <span class="tracker-name" data-i18n="waterTitle">💧 آب مصرفی</span>
+              <span style="font-size: 11px; color: #0284c7;" data-i18n="waterGoal">هدف: ۸ لیوان</span>
             </div>
-            <div class="tracker-val"><span id="waterCount">۳</span> / ۸ <small style="font-size: 12px; font-weight: normal;">لیوان</small></div>
+            <div class="tracker-val"><span id="waterCount">۳</span> / ۸ <small style="font-size: 12px; font-weight: normal;" id="waterUnitLabel" data-i18n="glassesWord">لیوان</small></div>
             <div class="water-glasses" id="waterGlasses">
               <span class="glass-icon filled" onclick="setWater(1)">🥛</span>
               <span class="glass-icon filled" onclick="setWater(2)">🥛</span>
@@ -176,33 +176,33 @@
               <span class="glass-icon" onclick="setWater(7)">🥛</span>
               <span class="glass-icon" onclick="setWater(8)">🥛</span>
             </div>
-            <button class="btn-sm-action" onclick="addWater()">+ نوشیدن یک لیوان دیگر</button>
+            <button class="btn-sm-action" onclick="addWater()" data-i18n="addWaterBtn">+ نوشیدن یک لیوان دیگر</button>
           </div>
 
           <div class="tracker-card">
             <div class="tracker-header">
-              <span class="tracker-name">🏃‍♀️ پیاده‌روی و تمرین</span>
-              <span style="font-size: 11px; color: #16a34a;">هدف: ۳۰ دقیقه</span>
+              <span class="tracker-name" data-i18n="workoutTitle">🏃‍♀️ پیاده‌روی و تمرین</span>
+              <span style="font-size: 11px; color: #16a34a;" data-i18n="workoutGoal">هدف: ۳۰ دقیقه</span>
             </div>
-            <div class="tracker-val"><span id="workoutMins">۲۰</span> / ۳۰ <small style="font-size: 12px; font-weight: normal;">دقیقه</small></div>
+            <div class="tracker-val"><span id="workoutMins">۲۰</span> / ۳۰ <small style="font-size: 12px; font-weight: normal;" id="workoutUnitLabel" data-i18n="minsWord">دقیقه</small></div>
             <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 12px;">
               <div id="workoutProgressBar" style="width: 66%; height: 100%; background: #10b981; transition: width 0.3s;"></div>
             </div>
-            <button class="btn-sm-action" onclick="addWorkout(10)">+ ثبت ۱۰ دقیقه ورزش</button>
+            <button class="btn-sm-action" onclick="addWorkout(10)" data-i18n="addWorkoutBtn">+ ثبت ۱۰ دقیقه ورزش</button>
           </div>
         </div>
 
         <!-- Homework & Task Card (If applicable for day) -->
         <div class="card" id="homeworkCard" style="display: none;">
           <div class="card-title">
-            <span>📝 تکلیف تعاملی امروز</span>
-            <span style="font-size: 11px; background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px;">ارسال برای پزشک</span>
+            <span data-i18n="homeworkCardTitle">📝 تکلیف تعاملی امروز</span>
+            <span style="font-size: 11px; background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px;" data-i18n="homeworkBadge">ارسال برای پزشک</span>
           </div>
           <p id="homeworkInstruction" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px;"></p>
           <div class="form-group">
-            <input type="text" id="homeworkInput" class="form-input" placeholder="پاسخ یا گزارش خود را اینجا بنویسید...">
+            <input type="text" id="homeworkInput" class="form-input" data-i18n-placeholder="homeworkPlaceholder" placeholder="پاسخ یا گزارش خود را اینجا بنویسید...">
           </div>
-          <button class="btn-outline" onclick="submitHomework()">ارسال تکلیف برای خانم دکتر</button>
+          <button class="btn-outline" onclick="submitHomework()" data-i18n="homeworkSubmitBtn">ارسال تکلیف برای خانم دکتر</button>
         </div>
 
       </section>
@@ -211,44 +211,44 @@
       <section id="tab-waiting" class="tab-pane">
         <div class="waiting-room-hero">
           <div style="font-size: 40px; margin-bottom: 8px;">🔬</div>
-          <h2 style="font-size: 18px; font-weight: 800;">پرونده شما در صف بررسی خانم دکتر است</h2>
-          <p style="font-size: 13px; opacity: 0.9; margin-top: 6px; line-height: 1.6;">
+          <h2 style="font-size: 18px; font-weight: 800;" data-i18n="waitingTitle">پرونده شما در صف بررسی خانم دکتر است</h2>
+          <p style="font-size: 13px; opacity: 0.9; margin-top: 6px; line-height: 1.6;" data-i18n="waitingDesc">
             برخلاف رژیم‌های رباتیک و بی‌کیفیت، رژیم اختصاصی شما بر اساس جواب آزمایش و ویژگی‌های هورمونی توسط شخص خانم دکتر تنظیم می‌شود.
           </p>
           
           <div class="waiting-clock" id="countdownClock">18:42:15</div>
-          <div style="font-size: 12px; opacity: 0.85;">زمان تقریبی تا آماده‌سازی کامل رژیم غذایی و ورزشی</div>
+          <div style="font-size: 12px; opacity: 0.85;" data-i18n="waitingNote">زمان تقریبی تا آماده‌سازی کامل رژیم غذایی و ورزشی</div>
 
           <div class="doctor-inspect-steps">
             <div class="step-indicator done">
               <div class="step-bullet">✓</div>
-              <span>دریافت مشخصات بیومتریک و سابقه پزشکی</span>
+              <span data-i18n="step1">دریافت مشخصات بیومتریک و سابقه پزشکی</span>
             </div>
             <div class="step-indicator done">
               <div class="step-bullet">✓</div>
-              <span>بررسی برگه آزمایش خون و فاکتورهای تیروئید و قند</span>
+              <span data-i18n="step2">بررسی برگه آزمایش خون و فاکتورهای تیروئید و قند</span>
             </div>
             <div class="step-indicator active">
               <div class="step-bullet">⚙</div>
-              <span>آنالیز عکس‌های قبل و فرم بدنی توسط پزشک</span>
+              <span data-i18n="step3">آنالیز عکس‌های قبل و فرم بدنی توسط پزشک</span>
             </div>
             <div class="step-indicator">
               <div class="step-bullet">⏳</div>
-              <span>محاسبه دقیق درشت‌مغذی‌ها و تنظیم پلن غذایی اختصاصی</span>
+              <span data-i18n="step4">محاسبه دقیق درشت‌مغذی‌ها و تنظیم پلن غذایی اختصاصی</span>
             </div>
             <div class="step-indicator">
               <div class="step-bullet">⏳</div>
-              <span>تایید نهایی و بارگذاری در پنل مراجع</span>
+              <span data-i18n="step5">تایید نهایی و بارگذاری در پنل مراجع</span>
             </div>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">تست سریع در دمو (ویژه بررسی کارفرما)</div>
-          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px;">
+          <div class="card-title" data-i18n="demoApproveTitle">تست سریع در دمو (ویژه بررسی کارفرما)</div>
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px;" data-i18n="demoApproveDesc">
             برای اینکه بتوانید فوراً خروجی تایید پزشک را تست کنید، می‌توانید از این دکمه شبیه‌ساز استفاده کنید:
           </p>
-          <button class="btn-primary" onclick="simulateDoctorApproval()">
+          <button class="btn-primary" onclick="simulateDoctorApproval()" data-i18n="demoApproveBtn">
             ⚡ شبیه‌سازی تایید فوری رژیم توسط خانم دکتر
           </button>
         </div>
@@ -258,91 +258,91 @@
       <section id="tab-intake" class="tab-pane">
         <div class="card">
           <div class="card-title">
-            <span>📋 پرونده پزشکی و آنالیز سلامت</span>
-            <span style="font-size: 11px; color: var(--primary);">زیر نظر پزشک</span>
+            <span data-i18n="intakeTitle">📋 پرونده پزشکی و آنالیز سلامت</span>
+            <span style="font-size: 11px; color: var(--primary);" data-i18n="intakeBadge">زیر نظر پزشک</span>
           </div>
 
           <form id="intakeForm" onsubmit="saveIntake(event)">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div class="form-group">
-                <label class="form-label">قد (سانتی‌متر)</label>
+                <label class="form-label" data-i18n="lblHeight">قد (سانتی‌متر)</label>
                 <input type="number" id="userHeight" class="form-input" value="168" required>
               </div>
               <div class="form-group">
-                <label class="form-label">وزن فعلی (کیلوگرم)</label>
+                <label class="form-label" data-i18n="lblWeight">وزن فعلی (کیلوگرم)</label>
                 <input type="number" id="userWeight" class="form-input" value="78" required>
               </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div class="form-group">
-                <label class="form-label">سن</label>
+                <label class="form-label" data-i18n="lblAge">سن</label>
                 <input type="number" id="userAge" class="form-input" value="31" required>
               </div>
               <div class="form-group">
-                <label class="form-label">وزن هدف (کیلوگرم)</label>
+                <label class="form-label" data-i18n="lblTargetWeight">وزن هدف (کیلوگرم)</label>
                 <input type="number" id="userTargetWeight" class="form-input" value="62" required>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label">وضعیت چرخه قاعدگی بانوان</label>
+              <label class="form-label" data-i18n="lblMenstrual">وضعیت چرخه قاعدگی بانوان</label>
               <select id="userMenstrual" class="form-select">
-                <option value="regular">کاملاً منظم (۲۸ تا ۳۰ روزه)</option>
-                <option value="irregular">نامنظم / با تاخیر</option>
-                <option value="pco">دارای تنبلی تخمدان (PCOS)</option>
-                <option value="menopause">یائسگی</option>
-                <option value="male">مراجع آقا هستم</option>
+                <option value="regular" data-i18n="optMenstrualRegular">کاملاً منظم (۲۸ تا ۳۰ روزه)</option>
+                <option value="irregular" data-i18n="optMenstrualIrregular">نامنظم / با تاخیر</option>
+                <option value="pco" data-i18n="optMenstrualPco">دارای تنبلی تخمدان (PCOS)</option>
+                <option value="menopause" data-i18n="optMenstrualMenopause">یائسگی</option>
+                <option value="male" data-i18n="optMenstrualMale">مراجع آقا هستم</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label">سابقه بیماری‌ها و حساسیت‌ها</label>
+              <label class="form-label" data-i18n="lblConditions">سابقه بیماری‌ها و حساسیت‌ها</label>
               <input type="text" id="userConditions" class="form-input" value="کم‌کاری تیروئید خفیف (لووتیروکسین)، بدون آلرژی غذایی">
             </div>
 
             <!-- Blood Test Upload -->
             <div class="form-group">
-              <label class="form-label">💉 آپلود برگه آزمایش خون (الزامی جهت بررسی پزشک)</label>
+              <label class="form-label" data-i18n="lblBloodUpload">💉 آپلود برگه آزمایش خون (الزامی جهت بررسی پزشک)</label>
               <div class="upload-zone" onclick="document.getElementById('bloodTestFile').click()">
                 <div style="font-size: 28px; margin-bottom: 4px;">📑</div>
-                <div style="font-size: 13px; font-weight: 700; color: var(--primary);">انتخاب تصویر یا فایل PDF آزمایش</div>
-                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;" id="bloodTestFilename">فایل بارگذاری شده: Azmayesh-Khon-Tir98.pdf (تایید شده)</div>
+                <div style="font-size: 13px; font-weight: 700; color: var(--primary);" data-i18n="bloodUploadBtn">انتخاب تصویر یا فایل PDF آزمایش</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;" id="bloodTestFilename" data-i18n="bloodUploadDone">فایل بارگذاری شده: Azmayesh-Khon-Tir98.pdf (تایید شده)</div>
                 <input type="file" id="bloodTestFile" style="display: none;" onchange="handleBloodTestUpload(event)">
               </div>
             </div>
 
             <!-- 360 Degree Progress Photos (4 Angles) -->
             <div class="form-group">
-              <label class="form-label">📸 تصاویر وضعیت بدنی (۴ زاویه روبرو، پشت و نیم‌رخ‌ها)</label>
-              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">
+              <label class="form-label" data-i18n="lblPhotos">📸 تصاویر وضعیت بدنی (۴ زاویه روبرو، پشت و نیم‌رخ‌ها)</label>
+              <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;" data-i18n="photosNotice">
                 این تصاویر صرفاً توسط خانم دکتر برای ارزیابی افتادگی و چربی موضعی مشاهده شده و کاملاً محرمانه است.
               </p>
               
               <div class="angles-grid">
                 <div class="angle-box">
-                  <div class="angle-title">۱. نمای روبرو (Front)</div>
+                  <div class="angle-title" data-i18n="angleFront">۱. نمای روبرو (Front)</div>
                   <div class="angle-preview" onclick="selectAnglePhoto('front')">
                     <span id="preview-front">🧍‍♀️</span>
                   </div>
                 </div>
 
                 <div class="angle-box">
-                  <div class="angle-title">۲. نیم‌رخ راست (Right)</div>
+                  <div class="angle-title" data-i18n="angleRight">۲. نیم‌رخ راست (Right)</div>
                   <div class="angle-preview" onclick="selectAnglePhoto('right')">
                     <span id="preview-right">🧍‍♀️</span>
                   </div>
                 </div>
 
                 <div class="angle-box">
-                  <div class="angle-title">۳. نمای پشت (Back)</div>
+                  <div class="angle-title" data-i18n="angleBack">۳. نمای پشت (Back)</div>
                   <div class="angle-preview" onclick="selectAnglePhoto('back')">
                     <span id="preview-back">🧍‍♀️</span>
                   </div>
                 </div>
 
                 <div class="angle-box">
-                  <div class="angle-title">۴. نیم‌رخ چپ (Left)</div>
+                  <div class="angle-title" data-i18n="angleLeft">۴. نیم‌رخ چپ (Left)</div>
                   <div class="angle-preview" onclick="selectAnglePhoto('left')">
                     <span id="preview-left">🧍‍♀️</span>
                   </div>
@@ -350,7 +350,7 @@
               </div>
             </div>
 
-            <button type="submit" class="btn-primary" style="margin-top: 14px;">
+            <button type="submit" class="btn-primary" style="margin-top: 14px;" data-i18n="btnSaveIntake">
               💾 ذخیره پرونده و ارسال برای خانم دکتر
             </button>
           </form>
@@ -361,40 +361,40 @@
       <section id="tab-followup" class="tab-pane">
         <div class="card">
           <div class="card-title">
-            <span>🔔 موتور فالوآپ و پیگیری هوشمند</span>
-            <span style="font-size: 11px; color: #10b981;">نرخ پایبندی: ۹۳٪</span>
+            <span data-i18n="followupTitle">🔔 موتور فالوآپ و پیگیری هوشمند</span>
+            <span style="font-size: 11px; color: #10b981;" data-i18n="followupBadge">نرخ پایبندی: ۹۳٪</span>
           </div>
-          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;">
-            همانطور که کارفرمای محترم تاکید کردند، عامل اصلی نتیجه‌گیری افراد در رژیم «فالوآپ و یادآوری منظم» است. در اینجا نمونه نوتیفیکیشن‌های روزانه طراحی شده را امتحان کنید:
+          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px;" data-i18n="followupDesc">
+            عامل اصلی نتیجه‌گیری افراد در رژیم «فالوآپ و یادآوری منظم» است. در اینجا نمونه نوتیفیکیشن‌های روزانه طراحی شده را امتحان کنید:
           </p>
 
           <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button class="btn-outline" onclick="triggerMockNotification('water')">
-              💧 شبیه‌ساز نوتیفیکیشن: «آب قبل از غذا رو خوردی؟»
+            <button class="btn-outline" onclick="triggerMockNotification('water')" data-i18n="btnSimWater">
+              💧 شبیه‌ساز: «آب قبل از غذا رو خوردی؟»
             </button>
-            <button class="btn-outline" onclick="triggerMockNotification('breath')">
-              🧘‍♀️ شبیه‌ساز نوتیفیکیشن: «۴ دور تنفس مربعی برای آرامش»
+            <button class="btn-outline" onclick="triggerMockNotification('breath')" data-i18n="btnSimBreath">
+              🧘‍♀️ شبیه‌ساز: «۴ دور تنفس مربعی برای آرامش»
             </button>
-            <button class="btn-outline" onclick="triggerMockNotification('workout')">
-              👟 شبیه‌ساز نوتیفیکیشن: «وقت ۲۰ دقیقه پیاده‌روی شادابه»
+            <button class="btn-outline" onclick="triggerMockNotification('workout')" data-i18n="btnSimWorkout">
+              👟 شبیه‌ساز: «وقت ۲۰ دقیقه پیاده‌روی شادابه»
             </button>
-            <button class="btn-outline" onclick="triggerMockNotification('cbt')">
-              📝 شبیه‌ساز نوتیفیکیشن: «جدول مزایای لاغریت رو امروز خوندی؟»
+            <button class="btn-outline" onclick="triggerMockNotification('cbt')" data-i18n="btnSimCbt">
+              📝 شبیه‌ساز: «جدول مزایای لاغریت رو امروز خوندی؟»
             </button>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">تنظیمات کانال‌های اطلاع‌رسانی</div>
+          <div class="card-title" data-i18n="notifChannelsTitle">تنظیمات کانال‌های اطلاع‌رسانی</div>
           <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
             <label style="display: flex; align-items: center; gap: 8px;">
-              <input type="checkbox" checked> دریافت پیامک سریع در صورت بسته بودن اپلیکیشن
+              <input type="checkbox" checked> <span data-i18n="chSms">دریافت پیامک سریع در صورت بسته بودن اپلیکیشن</span>
             </label>
             <label style="display: flex; align-items: center; gap: 8px;">
-              <input type="checkbox" checked> نوتیفیکیشن پوش مرورگر (Web Push)
+              <input type="checkbox" checked> <span data-i18n="chPush">نوتیفیکیشن پوش مرورگر (Web Push)</span>
             </label>
             <label style="display: flex; align-items: center; gap: 8px;">
-              <input type="checkbox" checked> یادآوری ویس‌های انگیزشی صبحگاهی خانم دکتر
+              <input type="checkbox" checked> <span data-i18n="chAudio">یادآوری ویس‌های انگیزشی صبحگاهی خانم دکتر</span>
             </label>
           </div>
         </div>
@@ -405,48 +405,48 @@
         <div class="card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <div style="font-size: 12px; opacity: 0.9;">سطح انگیزه و سلامت شما</div>
-              <div style="font-size: 20px; font-weight: 900; margin-top: 4px;">رهروی پراراده (سطح ۲)</div>
+              <div style="font-size: 12px; opacity: 0.9;" data-i18n="rewardsLevelTitle">سطح انگیزه و سلامت شما</div>
+              <div style="font-size: 20px; font-weight: 900; margin-top: 4px;" data-i18n="rewardsLevelVal">رهروی پراراده (سطح ۲)</div>
             </div>
             <div style="font-size: 36px;">🏆</div>
           </div>
-          <div style="margin-top: 14px; background: rgba(0, 0, 0, 0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px;">
-            امتیاز فعلی شما: <strong id="userTotalXp">۳۵۰</strong> امتیاز (۱۵۰ امتیاز تا باز شدن مدال بعدی)
+          <div style="margin-top: 14px; background: rgba(0, 0, 0, 0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px;" id="userScoreContainer">
+            <span data-i18n="rewardsScorePrefix">امتیاز فعلی شما:</span> <strong id="userTotalXp">۳۵۰</strong> <span data-i18n="rewardsScoreSuffix">امتیاز (۱۵۰ امتیاز تا باز شدن مدال بعدی)</span>
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">نشان‌های افتخار و دستاوردها</div>
+          <div class="card-title" data-i18n="rewardsBadgesTitle">نشان‌های افتخار و دستاوردها</div>
           <div class="badges-grid">
             <div class="badge-card unlocked">
               <div class="badge-icon">💧</div>
-              <div class="badge-name">سفیر آب</div>
-              <div class="badge-status">کسب شده ✓</div>
+              <div class="badge-name" data-i18n="badgeWaterName">سفیر آب</div>
+              <div class="badge-status" data-i18n="badgeUnlocked">کسب شده ✓</div>
             </div>
             <div class="badge-card unlocked">
               <div class="badge-icon">🧘‍♀️</div>
-              <div class="badge-name">تنفس آرام</div>
-              <div class="badge-status">کسب شده ✓</div>
+              <div class="badge-name" data-i18n="badgeBreathName">تنفس آرام</div>
+              <div class="badge-status" data-i18n="badgeUnlocked">کسب شده ✓</div>
             </div>
             <div class="badge-card unlocked">
               <div class="badge-icon">🥗</div>
-              <div class="badge-name">بشقاب سبز</div>
-              <div class="badge-status">کسب شده ✓</div>
+              <div class="badge-name" data-i18n="badgePlateName">بشقاب سبز</div>
+              <div class="badge-status" data-i18n="badgeUnlocked">کسب شده ✓</div>
             </div>
             <div class="badge-card">
               <div class="badge-icon">🪑</div>
-              <div class="badge-name">تمرکز نشسته</div>
-              <div class="badge-status">در حال تکمیل</div>
+              <div class="badge-name" data-i18n="badgeFocusName">تمرکز نشسته</div>
+              <div class="badge-status" data-i18n="badgeInProgress">در حال تکمیل</div>
             </div>
             <div class="badge-card">
               <div class="badge-icon">📝</div>
-              <div class="badge-name">کارت مزایا</div>
-              <div class="badge-status">قفل در روز ۵</div>
+              <div class="badge-name" data-i18n="badgeCbtName">کارت مزایا</div>
+              <div class="badge-status" data-i18n="badgeLockedDay5">قفل در روز ۵</div>
             </div>
             <div class="badge-card">
               <div class="badge-icon">🏅</div>
-              <div class="badge-name">هفته اول طلایی</div>
-              <div class="badge-status">قفل در روز ۷</div>
+              <div class="badge-name" data-i18n="badgeWeek1Name">هفته اول طلایی</div>
+              <div class="badge-status" data-i18n="badgeLockedDay7">قفل در روز ۷</div>
             </div>
           </div>
         </div>
@@ -458,25 +458,25 @@
           <div style="padding: 10px 14px; background: white; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
             <div style="width: 32px; height: 32px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-size: 16px;">👩‍⚕️</div>
             <div>
-              <div style="font-size: 13px; font-weight: 700;">دستیار و مشاور خانم دکتر</div>
-              <div style="font-size: 10px; color: #10b981;">پاسخگوی شما مثل یک دوست صمیمی</div>
+              <div style="font-size: 13px; font-weight: 700;" data-i18n="chatDoctorName">دستیار و مشاور خانم دکتر</div>
+              <div style="font-size: 10px; color: #10b981;" data-i18n="chatDoctorStatus">پاسخگوی شما مثل یک دوست صمیمی</div>
             </div>
           </div>
 
           <div class="chat-messages" id="chatMessages">
-            <div class="chat-bubble doctor">
+            <div class="chat-bubble doctor" data-i18n="chatInit1">
               سلام دوست من! خسته نباشی. من و خانم دکتر اینجاییم تا هر سوال یا چالشی توی رژیم و تکنیک‌های روزت داری رو با هم حل کنیم. امروز چطور پیش رفت؟
             </div>
-            <div class="chat-bubble user">
+            <div class="chat-bubble user" data-i18n="chatInit2">
               سلام خانم دکتر، تکنیک تنفس مربعی قبل از ناهار واقعا استرسم رو کم کرد. فقط سر کار گاهی یادم میره آب بخورم.
             </div>
-            <div class="chat-bubble doctor">
+            <div class="chat-bubble doctor" data-i18n="chatInit3">
               آفرین به همتت! دقیقاً به همین خاطر روی گوشیت نوتیف یادآوری فرستادیم. بطری آب رو همیشه روی میز جلو چشمت بذار تا عادتت تثبیت بشه. عکس ناهارت رو هم بفرست تا بشقابت رو ببینم ❤️
             </div>
           </div>
 
           <div class="chat-input-bar">
-            <input type="text" id="chatInput" class="chat-input" placeholder="پیام یا سوالت رو اینجا بنویس..." onkeypress="handleChatEnter(event)">
+            <input type="text" id="chatInput" class="chat-input" data-i18n-placeholder="chatPlaceholder" placeholder="پیام یا سوالت رو اینجا بنویس..." onkeypress="handleChatEnter(event)">
             <button class="chat-send-btn" onclick="sendChatMessage()">➤</button>
           </div>
         </div>
@@ -488,28 +488,28 @@
     <nav class="app-nav">
       <button class="nav-item active" onclick="switchTab('tab-today', this)">
         <span class="icon">🏠</span>
-        <span class="nav-label" id="navLabelToday">برنامه امروز</span>
+        <span class="nav-label" id="navLabelToday" data-i18n="tabToday">برنامه امروز</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-waiting', this)">
         <span class="icon">⏳</span>
-        <span class="nav-label" id="navLabelWaiting">صف پزشک</span>
+        <span class="nav-label" id="navLabelWaiting" data-i18n="tabWaiting">صف پزشک</span>
         <span class="nav-badge"></span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-intake', this)">
         <span class="icon">📋</span>
-        <span class="nav-label" id="navLabelIntake">پرونده سلامت</span>
+        <span class="nav-label" id="navLabelIntake" data-i18n="tabIntake">پرونده سلامت</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-followup', this)">
         <span class="icon">🔔</span>
-        <span class="nav-label" id="navLabelFollowup">فالوآپ‌ها</span>
+        <span class="nav-label" id="navLabelFollowup" data-i18n="tabFollowup">فالوآپ‌ها</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-rewards', this)">
         <span class="icon">🏆</span>
-        <span class="nav-label" id="navLabelRewards">دستاوردها</span>
+        <span class="nav-label" id="navLabelRewards" data-i18n="tabRewards">دستاوردها</span>
       </button>
       <button class="nav-item" onclick="switchTab('tab-chat', this)">
         <span class="icon">💬</span>
-        <span class="nav-label" id="navLabelChat">چت همراه</span>
+        <span class="nav-label" id="navLabelChat" data-i18n="tabChat">چت همراه</span>
       </button>
     </nav>
 
@@ -524,13 +524,13 @@
         <div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px; border: 2px solid #f59e0b; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);">
           <img src="icons/shock.jpg" style="width:100%;height:100%;object-fit:cover;">
         </div>
-        <h3 id="authModalTitle" style="font-size: 18px; font-weight: 900;">ورود به متد شوک</h3>
-        <p id="authModalSubtitle" style="font-size: 12px; color: #64748b;">حساب اختصاصی مراجعین دکتر مهدیس</p>
+        <h3 id="authModalTitle" style="font-size: 18px; font-weight: 900;" data-i18n="authModalSignInTitle">ورود به متد شوک</h3>
+        <p id="authModalSubtitle" style="font-size: 12px; color: #64748b;" data-i18n="authModalSubtitle">حساب اختصاصی مراجعین دکتر مهدیس</p>
       </div>
 
       <div class="auth-tabs">
-        <button id="tabBtnSignIn" class="auth-tab-btn active" onclick="switchAuthTab('signin')">ورود (Sign In)</button>
-        <button id="tabBtnSignUp" class="auth-tab-btn" onclick="switchAuthTab('signup')">ثبت‌نام (Sign Up)</button>
+        <button id="tabBtnSignIn" class="auth-tab-btn active" onclick="switchAuthTab('signin')" data-i18n="tabSignIn">ورود (Sign In)</button>
+        <button id="tabBtnSignUp" class="auth-tab-btn" onclick="switchAuthTab('signup')" data-i18n="tabSignUp">ثبت‌نام (Sign Up)</button>
       </div>
 
       <div id="authMsg" class="auth-msg"></div>
@@ -538,62 +538,62 @@
       <!-- Sign In Form -->
       <form id="signInForm" class="auth-form active" onsubmit="handleSignIn(event)">
         <div class="form-group">
-          <label id="lblSignInPhone" class="form-label">شماره موبایل یا ایمیل</label>
+          <label id="lblSignInPhone" class="form-label" data-i18n="lblIdentifier">شماره موبایل یا ایمیل</label>
           <input type="text" id="signInIdentifier" class="form-input" placeholder="09123456789 یا email@example.com" required>
         </div>
         <div class="form-group">
-          <label id="lblSignInPass" class="form-label">رمز عبور</label>
+          <label id="lblSignInPass" class="form-label" data-i18n="lblPassword">رمز عبور</label>
           <input type="password" id="signInPassword" class="form-input" placeholder="••••••••" required>
         </div>
-        <button type="submit" id="btnSignInSubmit" class="btn-primary" style="margin-top: 14px;">
+        <button type="submit" id="btnSignInSubmit" class="btn-primary" style="margin-top: 14px;" data-i18n="btnSubmitSignIn">
           ورود به پنل کاربری
         </button>
         <p style="font-size: 12px; text-align: center; color: #64748b; margin-top: 14px;">
-          <span id="txtNoAccount">حساب کاربری ندارید؟</span>
-          <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color: var(--primary); font-weight: 700; text-decoration: none;" id="lnkGoSignUp">ثبت‌نام کنید</a>
+          <span id="txtNoAccount" data-i18n="noAccountPrompt">حساب کاربری ندارید؟</span>
+          <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color: var(--primary); font-weight: 700; text-decoration: none;" id="lnkGoSignUp" data-i18n="linkSignUp">ثبت‌نام کنید</a>
         </p>
       </form>
 
       <!-- Sign Up Form -->
       <form id="signUpForm" class="auth-form" onsubmit="handleSignUp(event)">
         <div class="form-group">
-          <label id="lblSignUpName" class="form-label">نام و نام خانوادگی</label>
-          <input type="text" id="signUpName" class="form-input" placeholder="مثال: سارا محمدی" required>
+          <label id="lblSignUpName" class="form-label" data-i18n="lblFullName">نام و نام خانوادگی</label>
+          <input type="text" id="signUpName" class="form-input" data-i18n-placeholder="signUpNamePlaceholder" placeholder="مثال: سارا محمدی" required>
         </div>
         <div class="form-group">
-          <label id="lblSignUpPhone" class="form-label">شماره موبایل یا ایمیل</label>
+          <label id="lblSignUpPhone" class="form-label" data-i18n="lblIdentifier">شماره موبایل یا ایمیل</label>
           <input type="text" id="signUpIdentifier" class="form-input" placeholder="0912... یا email@example.com" required>
         </div>
         <div class="form-group">
-          <label id="lblSignUpPass" class="form-label">رمز عبور (حداقل ۶ کاراکتر)</label>
+          <label id="lblSignUpPass" class="form-label" data-i18n="lblPasswordMin6">رمز عبور (حداقل ۶ کاراکتر)</label>
           <input type="password" id="signUpPassword" class="form-input" placeholder="••••••••" minlength="6" required>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           <div class="form-group">
-            <label id="lblSignUpAge" class="form-label">سن</label>
+            <label id="lblSignUpAge" class="form-label" data-i18n="lblAge">سن</label>
             <input type="number" id="signUpAge" class="form-input" value="30" required>
           </div>
           <div class="form-group">
-            <label id="lblSignUpHeight" class="form-label">قد (سانتی‌متر)</label>
+            <label id="lblSignUpHeight" class="form-label" data-i18n="lblHeight">قد (سانتی‌متر)</label>
             <input type="number" id="signUpHeight" class="form-input" value="168" required>
           </div>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           <div class="form-group">
-            <label id="lblSignUpWeight" class="form-label">وزن فعلی (kg)</label>
+            <label id="lblSignUpWeight" class="form-label" data-i18n="lblWeight">وزن فعلی (kg)</label>
             <input type="number" id="signUpWeight" class="form-input" value="75" required>
           </div>
           <div class="form-group">
-            <label id="lblSignUpTarget" class="form-label">وزن هدف (kg)</label>
+            <label id="lblSignUpTarget" class="form-label" data-i18n="lblTargetWeight">وزن هدف (kg)</label>
             <input type="number" id="signUpTarget" class="form-input" value="60" required>
           </div>
         </div>
-        <button type="submit" id="btnSignUpSubmit" class="btn-primary" style="margin-top: 14px;">
+        <button type="submit" id="btnSignUpSubmit" class="btn-primary" style="margin-top: 14px;" data-i18n="btnSubmitSignUp">
           ایجاد حساب و آغاز متد شوک
         </button>
         <p style="font-size: 12px; text-align: center; color: #64748b; margin-top: 14px;">
-          <span id="txtHaveAccount">قبلاً ثبت‌نام کرده‌اید؟</span>
-          <a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color: var(--primary); font-weight: 700; text-decoration: none;" id="lnkGoSignIn">وارد شوید</a>
+          <span id="txtHaveAccount" data-i18n="haveAccountPrompt">قبلاً ثبت‌نام کرده‌اید؟</span>
+          <a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color: var(--primary); font-weight: 700; text-decoration: none;" id="lnkGoSignIn" data-i18n="linkSignIn">وارد شوید</a>
         </p>
       </form>
     </div>
@@ -611,4 +611,3 @@
   <script src="app.js"></script>
 </body>
 </html>
-

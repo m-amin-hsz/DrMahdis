@@ -1,4 +1,4 @@
-// Client App Logic - Bilingual (FA/EN), Authentication (Sign In/Up/Out), Habit Stacking & Chat
+// Client App Logic - Full Bilingual (FA/EN), Authentication (Sign In/Up/Out), AI Companion & Habit Stacking
 
 let techniquesData = [];
 let currentDay = 1;
@@ -17,12 +17,16 @@ let currentUser = JSON.parse(localStorage.getItem('shock_user') || 'null');
 const i18n = {
   fa: {
     langBtn: "EN",
+    splashSubtitle: "متد اختصاصی تغییر سبک زندگی و لاغری",
+    splashDoctor: "زیر نظر مستقیم دکتر مهدیس",
+    notifDefaultTitle: "یادآور متد شوک دکتر مهدیس",
+    notifDefaultBody: "سلام عزیزم! ۱۵ دقیقه تا ناهار مونده، ۲ لیوان آب ولرم و ۴ دور تنفس مربعی یادت نره.",
     brandTitle: "متد شوک | دکتر مهدیس",
     brandSubtitle: "Drmadis.com • لایف‌استایل و رژیم ۹۰ روزه",
     streakLabel: "روز",
-    authBtnSignIn: "ورود / ثبت‌نام",
+    authBtnSignIn: "ورود",
     authBtnLogout: "خروج",
-    downloadApk: "دانلود APK",
+    downloadApk: "APK",
     doctorPortal: "پنل پزشک ⚡",
     installBannerTitle: "نصب اپلیکیشن Shock روی گوشی",
     installBannerSub: "دسترسی سریع، بدون نوار مرورگر و آفلاین",
@@ -41,7 +45,7 @@ const i18n = {
     dayWord: "روز",
     techniquePrefix: "تکنیک روز",
     techniqueOf90: "از ۹۰",
-    tasksHeader: "وظایف انباشتی امروز",
+    tasksHeader: "🎯 وظایف انباشتی امروز",
     tasksDesc: "تکنیک‌های هر روز به روزهای قبل اضافه می‌شوند تا سبک زندگی ماندگار شکل بگیرد:",
     tasksCompleted: "انجام شده",
     taskIntroduced: "معرفی شده در روز",
@@ -105,11 +109,11 @@ const i18n = {
     // Followup Simulator
     followupTitle: "🔔 موتور فالوآپ و پیگیری هوشمند",
     followupBadge: "نرخ پایبندی: ۹۳٪",
-    followupDesc: "عامل اصلی نتیجه‌گیری افراد در رژیم «فالوآپ و یادآوری منظم» است. در اینجا نمونه نوتیفیکیشن‌های روزانه را امتحان کنید:",
+    followupDesc: "عامل اصلی نتیجه‌گیری افراد در رژیم «فالوآپ و یادآوری منظم» است. در اینجا نمونه نوتیفیکیشن‌های روزانه طراحی شده را امتحان کنید:",
     btnSimWater: "💧 شبیه‌ساز: «آب قبل از غذا رو خوردی؟»",
     btnSimBreath: "🧘‍♀️ شبیه‌ساز: «۴ دور تنفس مربعی برای آرامش»",
     btnSimWorkout: "👟 شبیه‌ساز: «وقت ۲۰ دقیقه پیاده‌روی شادابه»",
-    btnSimCbt: "📝 شبیه‌ساز: «جدول مزایای لاغریت رو خوندی؟»",
+    btnSimCbt: "📝 شبیه‌ساز: «جدول مزایای لاغریت رو امروز خوندی؟»",
     notifChannelsTitle: "تنظیمات کانال‌های اطلاع‌رسانی",
     chSms: "دریافت پیامک سریع در صورت بسته بودن اپلیکیشن",
     chPush: "نوتیفیکیشن پوش مرورگر (Web Push)",
@@ -118,12 +122,26 @@ const i18n = {
     // Rewards
     rewardsLevelTitle: "سطح انگیزه و سلامت شما",
     rewardsLevelVal: "رهروی پراراده (سطح ۲)",
-    rewardsScoreNote: "امتیاز فعلی شما: {xp} امتیاز (۱۵۰ امتیاز تا مدال بعدی)",
+    rewardsScorePrefix: "امتیاز فعلی شما:",
+    rewardsScoreSuffix: "امتیاز (۱۵۰ امتیاز تا باز شدن مدال بعدی)",
     rewardsBadgesTitle: "نشان‌های افتخار و دستاوردها",
+    badgeWaterName: "سفیر آب",
+    badgeBreathName: "تنفس آرام",
+    badgePlateName: "بشقاب سبز",
+    badgeFocusName: "تمرکز نشسته",
+    badgeCbtName: "کارت مزایا",
+    badgeWeek1Name: "هفته اول طلایی",
+    badgeUnlocked: "کسب شده ✓",
+    badgeInProgress: "در حال تکمیل",
+    badgeLockedDay5: "قفل در روز ۵",
+    badgeLockedDay7: "قفل در روز ۷",
 
     // Chat
     chatDoctorName: "دستیار و مشاور خانم دکتر",
     chatDoctorStatus: "پاسخگوی شما مثل یک دوست صمیمی",
+    chatInit1: "سلام دوست من! خسته نباشی. من و خانم دکتر اینجاییم تا هر سوال یا چالشی توی رژیم و تکنیک‌های روزت داری رو با هم حل کنیم. امروز چطور پیش رفت؟",
+    chatInit2: "سلام خانم دکتر، تکنیک تنفس مربعی قبل از ناهار واقعا استرسم رو کم کرد. فقط سر کار گاهی یادم میره آب بخورم.",
+    chatInit3: "آفرین به همتت! دقیقاً به همین خاطر روی گوشیت نوتیف یادآوری فرستادیم. بطری آب رو همیشه روی میز جلو چشمت بذار تا عادتت تثبیت بشه. عکس ناهارت رو هم بفرست تا بشقابت رو ببینم ❤️",
     chatPlaceholder: "پیام یا سوالت رو اینجا بنویس...",
 
     // Auth Modal
@@ -134,6 +152,9 @@ const i18n = {
     tabSignUp: "ثبت‌نام (Sign Up)",
     lblIdentifier: "شماره موبایل یا ایمیل",
     lblPassword: "رمز عبور",
+    lblPasswordMin6: "رمز عبور (حداقل ۶ کاراکتر)",
+    lblFullName: "نام و نام خانوادگی",
+    signUpNamePlaceholder: "مثال: سارا محمدی",
     btnSubmitSignIn: "ورود به پنل کاربری",
     btnSubmitSignUp: "ایجاد حساب و آغاز متد شوک",
     noAccountPrompt: "حساب کاربری ندارید؟",
@@ -147,12 +168,16 @@ const i18n = {
 
   en: {
     langBtn: "FA",
+    splashSubtitle: "90-Day Lifestyle & Weight Transformation",
+    splashDoctor: "Supervised Directly by Dr. Madis",
+    notifDefaultTitle: "Dr. Madis Shock Method Reminder",
+    notifDefaultBody: "Hello! 15 mins before lunch. Don't forget 2 glasses of warm water and 4 box breaths.",
     brandTitle: "Shock Method | Dr. Madis",
     brandSubtitle: "Drmadis.com • 90-Day Lifestyle & Diet",
     streakLabel: "Days",
-    authBtnSignIn: "Sign In / Register",
+    authBtnSignIn: "Sign In",
     authBtnLogout: "Logout",
-    downloadApk: "Download APK",
+    downloadApk: "APK",
     doctorPortal: "Doctor Portal ⚡",
     installBannerTitle: "Install Shock App on Your Phone",
     installBannerSub: "Fast, full-screen offline access without browser bar",
@@ -171,8 +196,8 @@ const i18n = {
     dayWord: "Day",
     techniquePrefix: "Technique Day",
     techniqueOf90: "of 90",
-    tasksHeader: "Today's Habit Stacking Tasks",
-    tasksDesc: "Daily techniques stack on previous habits to build sustainable, permanent lifestyle changes:",
+    tasksHeader: "🎯 Today's Cumulative Tasks",
+    tasksDesc: "Daily techniques build upon previous habits to create permanent lifestyle changes:",
     tasksCompleted: "completed",
     taskIntroduced: "Introduced on Day",
     taskDaily: "Daily habit",
@@ -181,28 +206,28 @@ const i18n = {
     // Trackers
     waterTitle: "💧 Water Intake",
     waterGoal: "Goal: 8 Glasses",
-    glassesWord: "Glasses",
+    glassesWord: "glasses",
     addWaterBtn: "+ Drink Another Glass",
-    workoutTitle: "🏃‍♀️ Walking & Workout",
+    workoutTitle: "🏃‍♀️ Walking & Exercise",
     workoutGoal: "Goal: 30 Mins",
-    minsWord: "Mins",
+    minsWord: "mins",
     addWorkoutBtn: "+ Log 10 Mins Exercise",
 
     // Homework
     homeworkCardTitle: "📝 Today's Interactive Assignment",
     homeworkBadge: "Send to Doctor",
-    homeworkPlaceholder: "Type your homework report or reflection here...",
+    homeworkPlaceholder: "Type your reflection or report here...",
     homeworkSubmitBtn: "Submit Homework to Dr. Madis",
 
     // Waiting Room
     waitingTitle: "Your Dossier is in Dr. Madis's Review Queue",
-    waitingDesc: "Unlike generic robot-generated diet apps, your custom program is designed by Dr. Madis personally based on your blood lab work and hormonal profile.",
-    waitingNote: "Estimated time until personalized meal & workout plan delivery",
-    step1: "Intake of biometric data and medical history",
-    step2: "Clinical review of blood tests, thyroid, and glucose",
-    step3: "360° photo body composition assessment by doctor",
-    step4: "Precision macronutrient calculation & custom diet design",
-    step5: "Final approval and delivery to patient portal",
+    waitingDesc: "Unlike generic robot diets, your custom plan is personally tailored by Dr. Madis based on your blood lab test and hormone markers.",
+    waitingNote: "Estimated time until custom diet & workout readiness",
+    step1: "Biometric intake and medical history",
+    step2: "Blood lab test analysis (Thyroid, Glucose, Vit D3)",
+    step3: "360° photo body composition assessment by physician",
+    step4: "Precision macro calculation & customized diet plan",
+    step5: "Final medical sign-off and portal delivery",
     demoApproveTitle: "Quick Demo Simulator (For Client Evaluation)",
     demoApproveDesc: "To test the instantaneous doctor approval flow right now, click this simulator button:",
     demoApproveBtn: "⚡ Simulate Immediate Doctor Approval",
@@ -214,18 +239,18 @@ const i18n = {
     lblWeight: "Current Weight (kg)",
     lblAge: "Age",
     lblTargetWeight: "Target Goal Weight (kg)",
-    lblMenstrual: "Female Menstrual Cycle Health",
+    lblMenstrual: "Female Menstrual Health",
     optMenstrualRegular: "Regular (28-30 Days)",
     optMenstrualIrregular: "Irregular / Delayed",
     optMenstrualPco: "Polycystic Ovary Syndrome (PCOS)",
     optMenstrualMenopause: "Menopause",
-    optMenstrualMale: "I am a male client",
-    lblConditions: "Medical Conditions & Food Allergies",
-    lblBloodUpload: "💉 Upload Blood Lab Test (Required for Doctor Review)",
+    optMenstrualMale: "Male Client",
+    lblConditions: "Medical History & Food Sensitivities",
+    lblBloodUpload: "💉 Upload Blood Lab Panel (Mandatory for Doctor Review)",
     bloodUploadBtn: "Select Lab Test Image or PDF File",
     bloodUploadDone: "Attached File: Blood_Lab_Panel_2026.pdf (Verified)",
     lblPhotos: "📸 360° Body Composition Photos (4 Angles)",
-    photosNotice: "These images are strictly private and viewed only by Dr. Madis to assess localized adipose and muscle tone.",
+    photosNotice: "These photos are strictly confidential, reviewed only by Dr. Madis for body composition evaluation.",
     angleFront: "1. Front View",
     angleRight: "2. Right Profile",
     angleBack: "3. Back View",
@@ -235,26 +260,40 @@ const i18n = {
     // Followup Simulator
     followupTitle: "🔔 Smart Follow-up & Accountability Engine",
     followupBadge: "Adherence Rate: 93%",
-    followupDesc: "The core reason clients succeed is consistent follow-ups and cues. Test these daily push notification samples:",
-    btnSimWater: "💧 Test Reminder: 'Did you drink 2 glasses of water?'",
-    btnSimBreath: "🧘‍♀️ Test Reminder: '4 rounds of box breathing before food'",
-    btnSimWorkout: "👟 Test Reminder: 'Time for your 20-min brisk walk'",
-    btnSimCbt: "📝 Test Reminder: 'Review your Advantage Card today'",
+    followupDesc: "The core reason clients succeed is structured follow-ups and cues. Test these daily prompt samples:",
+    btnSimWater: "💧 Test Prompt: 'Did you drink water before lunch?'",
+    btnSimBreath: "🧘‍♀️ Test Prompt: '4 rounds of box breathing for calm'",
+    btnSimWorkout: "👟 Test Prompt: 'Time for your 20-min brisk walk'",
+    btnSimCbt: "📝 Test Prompt: 'Did you review your Advantage Card today?'",
     notifChannelsTitle: "Notification Delivery Channels",
-    chSms: "Instant SMS delivery if app is closed",
+    chSms: "Instant SMS alert if application is closed",
     chPush: "Browser Web Push Notifications",
-    chAudio: "Morning voice motivation notes from Dr. Madis",
+    chAudio: "Morning audio motivation notes from Dr. Madis",
 
     // Rewards
-    rewardsLevelTitle: "Your Health & Motivation Level",
+    rewardsLevelTitle: "Your Motivation & Health Level",
     rewardsLevelVal: "Resolute Practitioner (Level 2)",
-    rewardsScoreNote: "Current Score: {xp} XP (150 XP to next badge)",
+    rewardsScorePrefix: "Current Score:",
+    rewardsScoreSuffix: "XP (150 XP to unlock next medal)",
     rewardsBadgesTitle: "Badges & Milestones",
+    badgeWaterName: "Water Ambassador",
+    badgeBreathName: "Mindful Breathing",
+    badgePlateName: "Green Plate",
+    badgeFocusName: "Seated Focus",
+    badgeCbtName: "Advantage Card",
+    badgeWeek1Name: "Golden Week 1",
+    badgeUnlocked: "Unlocked ✓",
+    badgeInProgress: "In Progress",
+    badgeLockedDay5: "Locked at Day 5",
+    badgeLockedDay7: "Locked at Day 7",
 
     // Chat
     chatDoctorName: "Dr. Madis Clinical Mentor",
     chatDoctorStatus: "Here for you like an empathetic friend",
-    chatPlaceholder: "Type your question or daily reflection here...",
+    chatInit1: "Hello my friend! Dr. Madis and I are here to guide your daily techniques and answer your questions. How was your day?",
+    chatInit2: "Hello Doctor! Box breathing before lunch really reduced my stress. I just occasionally forget to drink water at the office.",
+    chatInit3: "Bravo! That's precisely why our notification engine prompts you. Keep a water bottle right in sight. Send a quick picture of your lunch plate! ❤️",
+    chatPlaceholder: "Type your message or question here...",
 
     // Auth Modal
     authModalSignInTitle: "Sign In to Shock Method",
@@ -264,6 +303,9 @@ const i18n = {
     tabSignUp: "Sign Up",
     lblIdentifier: "Mobile Number or Email",
     lblPassword: "Password",
+    lblPasswordMin6: "Password (min 6 characters)",
+    lblFullName: "Full Name",
+    signUpNamePlaceholder: "e.g. Sarah Miller",
     btnSubmitSignIn: "Sign In to My Dashboard",
     btnSubmitSignUp: "Create Account & Start Shock Method",
     noAccountPrompt: "Don't have an account?",
@@ -396,8 +438,6 @@ function toggleLanguage() {
   currentLang = (currentLang === 'fa') ? 'en' : 'fa';
   localStorage.setItem('shock_lang', currentLang);
   applyLanguage(currentLang);
-  renderDaysStrip();
-  loadDay(currentDay);
 }
 
 function applyLanguage(lang) {
@@ -411,75 +451,26 @@ function applyLanguage(lang) {
   const langLabel = document.getElementById('langLabel');
   if (langLabel) langLabel.textContent = dict.langBtn;
 
-  // Header texts
-  const brandH1 = document.querySelector('.brand-text h1');
-  if (brandH1) brandH1.textContent = dict.brandTitle;
-  const brandP = document.querySelector('.brand-text p');
-  if (brandP) brandP.textContent = dict.brandSubtitle;
+  // Global automatic data-i18n replacement
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      el.textContent = dict[key];
+    }
+  });
 
-  const streakCount = document.getElementById('streakCount');
-  if (streakCount) streakCount.textContent = `5 ${dict.streakLabel}`;
+  // Global automatic data-i18n-placeholder replacement
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key] !== undefined) {
+      el.placeholder = dict[key];
+    }
+  });
 
-  // Install banner
-  const bannerTitle = document.querySelector('#installAppBanner div div div:first-child');
-  if (bannerTitle) bannerTitle.textContent = dict.installBannerTitle;
-  const bannerSub = document.querySelector('#installAppBanner div div div:last-child');
-  if (bannerSub) bannerSub.textContent = dict.installBannerSub;
-  const installBtn = document.getElementById('installAppBtn');
-  if (installBtn) installBtn.textContent = dict.installBtn;
-
-  // Bottom Tabs (Explicit IDs to prevent badge shift)
-  const lToday = document.getElementById('navLabelToday');
-  if (lToday) lToday.textContent = dict.tabToday;
-  const lWaiting = document.getElementById('navLabelWaiting');
-  if (lWaiting) lWaiting.textContent = dict.tabWaiting;
-  const lIntake = document.getElementById('navLabelIntake');
-  if (lIntake) lIntake.textContent = dict.tabIntake;
-  const lFollowup = document.getElementById('navLabelFollowup');
-  if (lFollowup) lFollowup.textContent = dict.tabFollowup;
-  const lRewards = document.getElementById('navLabelRewards');
-  if (lRewards) lRewards.textContent = dict.tabRewards;
-  const lChat = document.getElementById('navLabelChat');
-  if (lChat) lChat.textContent = dict.tabChat;
-
-  // Update Auth Modal labels
-  updateAuthModalLabels(dict);
-
-  // Update Trackers
-  const waterTitle = document.querySelector('.tracker-card:first-child .tracker-name');
-  if (waterTitle) waterTitle.textContent = dict.waterTitle;
-  const workoutTitle = document.querySelector('.tracker-card:last-child .tracker-name');
-  if (workoutTitle) workoutTitle.textContent = dict.workoutTitle;
-
-  // Update Chat
-  const chatDocTitle = document.querySelector('#tab-chat div div div:first-child');
-  if (chatDocTitle) chatDocTitle.textContent = dict.chatDoctorName;
-  const chatDocSub = document.querySelector('#tab-chat div div div:last-child');
-  if (chatDocSub) chatDocSub.textContent = dict.chatDoctorStatus;
-  const chatInput = document.getElementById('chatInput');
-  if (chatInput) chatInput.placeholder = dict.chatPlaceholder;
-}
-
-function updateAuthModalLabels(dict) {
-  const tSignIn = document.getElementById('tabBtnSignIn');
-  if (tSignIn) tSignIn.textContent = dict.tabSignIn;
-  const tSignUp = document.getElementById('tabBtnSignUp');
-  if (tSignUp) tSignUp.textContent = dict.tabSignUp;
-
-  const btnSignInSubmit = document.getElementById('btnSignInSubmit');
-  if (btnSignInSubmit) btnSignInSubmit.textContent = dict.btnSubmitSignIn;
-  const btnSignUpSubmit = document.getElementById('btnSignUpSubmit');
-  if (btnSignUpSubmit) btnSignUpSubmit.textContent = dict.btnSubmitSignUp;
-
-  const txtNoAcc = document.getElementById('txtNoAccount');
-  if (txtNoAcc) txtNoAcc.textContent = dict.noAccountPrompt;
-  const lnkSignUp = document.getElementById('lnkGoSignUp');
-  if (lnkSignUp) lnkSignUp.textContent = dict.linkSignUp;
-
-  const txtHaveAcc = document.getElementById('txtHaveAccount');
-  if (txtHaveAcc) txtHaveAcc.textContent = dict.haveAccountPrompt;
-  const lnkSignIn = document.getElementById('lnkGoSignIn');
-  if (lnkSignIn) lnkSignIn.textContent = dict.linkSignIn;
+  // Re-render dynamic components
+  renderDaysStrip();
+  loadDay(currentDay);
+  updateAuthUi();
 }
 
 // ================= AUTHENTICATION (SIGN IN, SIGN UP, SIGN OUT) =================
@@ -507,7 +498,7 @@ function updateAuthUi() {
     container.innerHTML = `
       <button class="user-auth-btn" onclick="openAuthModal('signin')">
         <span>👤</span>
-        <span>${dict.authBtnSignIn}</span>
+        <span id="authBtnText">${dict.authBtnSignIn}</span>
       </button>
     `;
   }
@@ -681,6 +672,7 @@ function handleSignOut() {
 // ================= DAY SELECTOR & HABIT STACKING =================
 function renderDaysStrip() {
   const container = document.getElementById('daysStrip');
+  if (!container) return;
   container.innerHTML = '';
   const dict = i18n[currentLang];
 
@@ -707,51 +699,62 @@ function loadDay(dayNum) {
   const dict = i18n[currentLang];
   const isEn = (currentLang === 'en');
 
-  // Title & Quotes
-  document.getElementById('currentDayNum').textContent = data.day;
-  document.getElementById('techniqueTitle').textContent = (isEn && data.title_en) ? data.title_en : data.title;
-  document.getElementById('techniqueCategory').textContent = (isEn && data.category_en) ? data.category_en : data.category;
+  // Title & Category
+  const curNum = document.getElementById('currentDayNum');
+  if (curNum) curNum.textContent = data.day;
+  const tTitle = document.getElementById('techniqueTitle');
+  if (tTitle) tTitle.textContent = (isEn && data.title_en) ? data.title_en : data.title;
+  const tCat = document.getElementById('techniqueCategory');
+  if (tCat) tCat.textContent = (isEn && data.category_en) ? data.category_en : data.category;
   
   const quote = (isEn && data.doctorQuote_en) ? data.doctorQuote_en : data.doctorQuote;
-  document.getElementById('doctorQuote').textContent = `«${quote}»`;
+  const dQuote = document.getElementById('doctorQuote');
+  if (dQuote) dQuote.textContent = `«${quote}»`;
 
   // Render Cumulative Tasks
   const taskListEl = document.getElementById('taskList');
-  taskListEl.innerHTML = '';
+  if (taskListEl) {
+    taskListEl.innerHTML = '';
 
-  let completedCount = 0;
-  const userPrefix = currentUser ? `user_${currentUser.id}_` : '';
-  const savedChecks = JSON.parse(localStorage.getItem(`${userPrefix}day_${dayNum}_tasks`) || '{}');
+    let completedCount = 0;
+    const userPrefix = currentUser ? `user_${currentUser.id}_` : '';
+    const savedChecks = JSON.parse(localStorage.getItem(`${userPrefix}day_${dayNum}_tasks`) || '{}');
 
-  data.cumulativeTasks.forEach(task => {
-    const isChecked = !!savedChecks[task.id];
-    if (isChecked) completedCount++;
+    data.cumulativeTasks.forEach(task => {
+      const isChecked = !!savedChecks[task.id];
+      if (isChecked) completedCount++;
 
-    const taskText = (isEn && task.text_en) ? task.text_en : task.text;
+      const taskText = (isEn && task.text_en) ? task.text_en : task.text;
 
-    const item = document.createElement('div');
-    item.className = `task-item ${isChecked ? 'checked' : ''}`;
-    item.innerHTML = `
-      <div class="task-checkbox">${isChecked ? '✓' : ''}</div>
-      <div class="task-content">
-        <div class="task-label">${taskText}</div>
-        <div class="task-sub">${dict.taskIntroduced} ${task.dayAdded} • ${dict.taskDaily}</div>
-      </div>
-    `;
-    item.onclick = () => toggleTask(dayNum, task.id);
-    taskListEl.appendChild(item);
-  });
+      const item = document.createElement('div');
+      item.className = `task-item ${isChecked ? 'checked' : ''}`;
+      item.innerHTML = `
+        <div class="task-checkbox">${isChecked ? '✓' : ''}</div>
+        <div class="task-content">
+          <div class="task-label">${taskText}</div>
+          <div class="task-sub">${dict.taskIntroduced} ${task.dayAdded} • ${dict.taskDaily}</div>
+        </div>
+      `;
+      item.onclick = () => toggleTask(dayNum, task.id);
+      taskListEl.appendChild(item);
+    });
 
-  document.getElementById('completedTasksRatio').textContent = `${completedCount} ${dict.techniqueOf90} ${data.cumulativeTasks.length} ${dict.tasksCompleted}`;
+    const ratioEl = document.getElementById('completedTasksRatio');
+    if (ratioEl) {
+      ratioEl.textContent = `${completedCount} ${dict.techniqueOf90} ${data.cumulativeTasks.length} ${dict.tasksCompleted}`;
+    }
+  }
 
   // Render Homework
   const homeworkCard = document.getElementById('homeworkCard');
-  if (data.homework) {
-    homeworkCard.style.display = 'block';
-    const hwText = (isEn && data.homework.instruction_en) ? data.homework.instruction_en : data.homework.instruction;
-    document.getElementById('homeworkInstruction').textContent = hwText;
-  } else {
-    homeworkCard.style.display = 'none';
+  if (homeworkCard) {
+    if (data.homework) {
+      homeworkCard.style.display = 'block';
+      const hwText = (isEn && data.homework.instruction_en) ? data.homework.instruction_en : data.homework.instruction;
+      document.getElementById('homeworkInstruction').textContent = hwText;
+    } else {
+      homeworkCard.style.display = 'none';
+    }
   }
 }
 
@@ -765,7 +768,8 @@ function toggleTask(dayNum, taskId) {
 
   if (savedChecks[taskId]) {
     userXp += 15;
-    document.getElementById('userTotalXp').textContent = userXp;
+    const xpEl = document.getElementById('userTotalXp');
+    if (xpEl) xpEl.textContent = userXp;
     triggerMockNotification('task_done');
   }
 }
@@ -958,17 +962,18 @@ function submitHomework() {
   document.getElementById('homeworkInput').value = '';
 }
 
-// Chat
+// ================= AI CLINICAL CHAT COMPANION =================
 function handleChatEnter(e) {
   if (e.key === 'Enter') sendChatMessage();
 }
 
-function sendChatMessage() {
+async function sendChatMessage() {
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
   if (!text) return;
 
   const chatContainer = document.getElementById('chatMessages');
+  const isFa = (currentLang === 'fa');
 
   // User Bubble
   const userBubble = document.createElement('div');
@@ -978,29 +983,56 @@ function sendChatMessage() {
   input.value = '';
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  // Coach Auto-reply
+  // Typing Indicator Bubble
+  const doctorBubble = document.createElement('div');
+  doctorBubble.className = 'chat-bubble doctor';
+  doctorBubble.innerHTML = `<span style="opacity: 0.7;">${isFa ? '⏳ در حال پاسخگویی...' : '⏳ Typing response...'}</span>`;
+  chatContainer.appendChild(doctorBubble);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  try {
+    const res = await fetch('/api/ai/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        profile: currentUser || {},
+        lang: currentLang
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      doctorBubble.textContent = data.reply;
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      return;
+    }
+  } catch (err) {
+    // Fallback if offline or GitHub Pages
+  }
+
+  // Local AI Clinical Companion Fallback
   setTimeout(() => {
-    const doctorBubble = document.createElement('div');
-    doctorBubble.className = 'chat-bubble doctor';
-    const isFa = (currentLang === 'fa');
-    
-    if (text.includes('آب') || text.toLowerCase().includes('water')) {
+    const msg = text.toLowerCase();
+    if (msg.includes('آب') || msg.includes('water') || msg.includes('تشنگی') || msg.includes('thirst')) {
       doctorBubble.textContent = isFa 
-        ? 'آفرین! حتماً بطری آب رو همراهت داشته باش. هر لیوان آبی که می‌نوشی، سوخت تمیز برای کبد و چربی‌سوزیه 💧'
-        : 'Keep that water bottle right by your side! Hydration accelerates metabolic lipid clearance 💧';
-    } else if (text.includes('وزن') || text.toLowerCase().includes('weight')) {
+        ? 'آفرین به هوشیاریت! هر لیوان آبی که می‌نوشی سوخت پاک کبد و تسریع‌کننده متابولیسمه. بطری آب رو همیشه روی میزت بذار تا تکنیک روز ۱ رو راحت اجرا کنی 💧'
+        : 'Great awareness! Drinking water temporarily boosts metabolic rate by up to 30%. Keep your bottle in plain sight to easily nail Day 1 💧';
+    } else if (msg.includes('وزن') || msg.includes('weight') || msg.includes('استپ') || msg.includes('plateau')) {
       doctorBubble.textContent = isFa 
-        ? 'اصلاً نگران نوسان‌های روزانه وزن نباش! احتباس آب و هورمون‌ها طبیعیه. مهم تداوم تکنیک‌هاست ❤️'
-        : 'Daily weight fluctuations are completely normal due to water retention. Focus on habit consistency ❤️';
+        ? 'اصلاً نگران نوسان‌های روزانه ترازو نباش! احتباس آب، نمک و تغییرات هورمونی کاملاً طبیعیه. مهم تداوم تکنیک‌های ۹۰ روزه شوکه؛ پاسخ بدنت حتمیه ❤️'
+        : 'Daily scale fluctuations are completely natural due to sodium and water balance. Stay consistent with your 90-day Shock habits ❤️';
+    } else if (msg.includes('شیرینی') || msg.includes('craving') || msg.includes('قند') || msg.includes('هوس')) {
+      doctorBubble.textContent = isFa
+        ? 'هوس شیرینی نشانه افت موقتی دوپامین یا کم‌آبیه! تکنیک اضطراری: ۱ لیوان آب ولرم بنوش، ۴ دور تنفس مربعی انجام بده و کارت مزایای لاغریت رو ۲ دقیقه بخون 🧘‍♀️'
+        : 'Sugar cravings are usually dopamine spikes or mild dehydration! Drink 1 glass of warm water, do 4 box breaths, and read your Advantage Card 🧘‍♀️';
     } else {
       doctorBubble.textContent = isFa 
-        ? 'پیامت رو ثبت کردم عزیزم. خانم دکتر در بررسی پرونده هفتگی این مورد رو لحاظ می‌کنند. پرقدرت ادامه بده!'
-        : 'Note received! Dr. Madis will review this in your weekly case analysis. Keep up the great work!';
+        ? 'پیامت رو با دقت بررسی کردم عزیزم. من و خانم دکتر در کنارتیم تا هر سوال یا چالشی در وعده‌ها و تکنیک‌ها داری رو فوراً برطرف کنیم. پرانرژی ادامه بده!'
+        : 'I reviewed your note! Dr. Madis and I are with you every step of the way. Feel free to ask any question regarding today\'s plan or techniques!';
     }
-
-    chatContainer.appendChild(doctorBubble);
     chatContainer.scrollTop = chatContainer.scrollHeight;
-  }, 1000);
+  }, 600);
 }
 
 // Splash Screen Auto Dismiss
