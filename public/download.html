@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>دانلود و نصب اپلیکیشن Shock ⚡ | دکتر مهدیس</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#090d16">
+  <link rel="icon" type="image/jpeg" href="icons/shock.jpg">
+  <link rel="apple-touch-icon" href="icons/shock.jpg">
+  <style>
+    body {
+      background: #090d16;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 16px;
+    }
+    .download-container {
+      width: 100%;
+      max-width: 480px;
+      background: #0f172a;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 24px;
+      padding: 28px 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(245, 158, 11, 0.15);
+      text-align: center;
+    }
+    .app-preview-card {
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .app-logo-glow {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 3px solid #f59e0b;
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.6), 0 0 15px rgba(16, 185, 129, 0.4);
+      margin-bottom: 14px;
+      animation: pulse 2s infinite alternate;
+    }
+    .app-logo-glow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.97); box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+      100% { transform: scale(1.03); box-shadow: 0 0 45px rgba(245, 158, 11, 0.8); }
+    }
+    .btn-download-apk {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #090d16;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 14px 20px;
+      border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.5);
+      transition: all 0.25s;
+      margin-bottom: 12px;
+    }
+    .btn-download-apk:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+    .btn-pwa-web {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 18px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all 0.25s;
+      margin-bottom: 24px;
+    }
+    .btn-pwa-web:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+    }
+    .guide-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: right;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .step-number {
+      background: #f59e0b;
+      color: #090d16;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 2px;
+    }
+    .step-text p {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="download-container">
+    
+    <!-- App Preview & Branding -->
+    <div class="app-preview-card">
+      <div class="app-logo-glow">
+        <img src="icons/shock.jpg" alt="Shock ⚡">
+      </div>
+      <h1 style="font-size: 26px; font-weight: 900; letter-spacing: 2px; color: #f8fafc; margin-bottom: 4px;">
+        SHOCK ⚡
+      </h1>
+      <p style="font-size: 13px; color: #facc15; font-weight: 700; margin-bottom: 2px;">
+        متد اختصاصی تغییر سبک زندگی و لاغری
+      </p>
+      <div style="font-size: 12px; color: #94a3b8;">
+        زیر نظر مستقیم دکتر مهدیس • Drmadis.com
+      </div>
+    </div>
+
+    <!-- Download Buttons -->
+    <div>
+      <a href="downloads/Shock.apk" class="btn-download-apk" id="apkDownloadLink">
+        <span style="font-size: 22px;">📥</span>
+        <span>دانلود مستقیم فایل نصبی (Shock.apk)</span>
+      </a>
+
+      <a href="index.html" class="btn-pwa-web">
+        <span>📲</span>
+        <span>ورود به اپلیکیشن و نصب فوری روی صفحه گوشی (PWA)</span>
+      </a>
+    </div>
+
+    <!-- Installation Guide for Android -->
+    <div style="margin-top: 20px;">
+      <h3 style="font-size: 14px; font-weight: 800; color: #f1f5f9; margin-bottom: 12px; text-align: right; display: flex; align-items: center; gap: 6px;">
+        <span>🤖</span>
+        <span>راهنمای ۳ مرحله‌ای نصب فایل APK روی اندروید:</span>
+      </h3>
+
+      <div class="guide-step">
+        <div class="step-number">۱</div>
+        <div class="step-text">
+          <h4>دانلود فایل نصبی</h4>
+          <p>روی دکمه طلایی بالا کلیک کنید تا فایل <code style="color:#fde047;">Shock.apk</code> دانلود شود.</p>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-number">۲</div>
+        <div class="step-text">
+          <h4>تایید نصب از مرورگر</h4>
+          <p>پس از دانلود، فایل را باز کرده و در صورت نمایش پیام امنیتی، گزینه <strong>Allow from this source (اجازه از این منبع)</strong> را فعال کنید.</p>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="step-number">۳</div>
+        <div class="step-text">
+          <h4>آغاز متد شوک ⚡</h4>
+          <p>اپلیکیشن با اسکرین زیبای <code style="color:#fde047;">shock.jpg</code> باز شده و دوره ۹۰ روزه شما آغاز می‌شود.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- iOS Guide -->
+    <div style="margin-top: 18px; background: rgba(56, 189, 248, 0.06); border: 1px dashed rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px; text-align: right;">
+      <div style="font-size: 12px; font-weight: 700; color: #38bdf8; margin-bottom: 4px;">🍏 راهنمای کاربران آیفون (iOS):</div>
+      <p style="font-size: 11px; color: #94a3b8; line-height: 1.6;">
+        در آیفون، نیازی به فایل APK نیست. کافیست دکمه آبی <strong>«ورود به اپلیکیشن»</strong> را در مرورگر Safari بزنید، سپس علامت <strong>اشتراک‌گذاری (Share)</strong> را زده و گزینه <strong>Add to Home Screen</strong> را انتخاب فرمایید.
+      </p>
+    </div>
+
+    <!-- Back to Web App -->
+    <div style="margin-top: 20px;">
+      <a href="index.html" style="font-size: 12px; color: #64748b; text-decoration: none;">
+        ← بازگشت به محیط اپلیکیشن
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>
+

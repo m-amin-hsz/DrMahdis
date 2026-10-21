@@ -11,6 +11,12 @@
   "lang": "fa-IR",
   "icons": [
     {
+      "src": "icons/shock.jpg",
+      "sizes": "512x512 1600x1600",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
       "src": "icons/icon.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
