@@ -18,8 +18,9 @@ public class MainActivity extends Activity {
     private ValueCallback<Uri[]> mFilePathCallback;
     private static final int FILE_CHOOSER_REQUEST_CODE = 1001;
 
-    // URL to load: Points to client's website domain
-    private static final String APP_URL = "https://drmadis.com"; 
+    // Primary URL for immediate mobile testing (GitHub Pages) with live fallback to official domain
+    private static final String APP_URL = "https://m-amin-hsz.github.io/DrMahdis/";
+    private static final String OFFICIAL_DOMAIN = "https://drmadis.com"; 
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override

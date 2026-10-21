@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
@@ -22,20 +24,23 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.6'
 
-      - name: Grant Execute Permissions
-        working-directory: ./android
+      - name: Accept Android SDK Licenses
         run: |
-          chmod +x ./build.gradle || true
+          mkdir -p "$ANDROID_HOME/licenses"
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "84831b9409646a533e444061824108e12986a752" >> "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> "$ANDROID_HOME/licenses/android-sdk-license"
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
       - name: Build Debug APK with Gradle
         working-directory: ./android
         run: |
-          gradle wrapper --gradle-version 8.6
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          gradle assembleDebug --stacktrace
 
       - name: Deploy APK to Docs for GitHub Pages Download
         run: |
@@ -55,5 +60,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/downloads/Shock.apk public/downloads/Shock.apk || true
-          git commit -m "chore(release): automated Shock.apk build [skip ci]" || true
-          git push || true
+          if git diff --staged --quiet; then
+            echo "No changes in Shock.apk"
+          else
+            git commit -m "chore(release): automated Shock.apk build [skip ci]"
+            git pull --rebase origin main || true
+            git push origin HEAD:main || true
+          fi
