@@ -741,7 +741,7 @@ function loadDay(dayNum) {
 
     const ratioEl = document.getElementById('completedTasksRatio');
     if (ratioEl) {
-      ratioEl.textContent = `${completedCount} ${dict.techniqueOf90} ${data.cumulativeTasks.length} ${dict.tasksCompleted}`;
+      ratioEl.textContent = `${completedCount} ${dict.techniqueOf90} ${dict.tasksCompleted}`;
     }
   }
 
