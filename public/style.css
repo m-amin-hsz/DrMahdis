@@ -1241,6 +1241,24 @@ html[dir="ltr"] .chat-bubble.user {
   visibility: visible;
 }
 
+.auth-modal-overlay.mandatory {
+  background: #090d16;
+  backdrop-filter: blur(20px);
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+}
+
+.auth-modal-overlay.mandatory .auth-modal-close {
+  display: none !important;
+}
+
+.auth-modal-overlay.mandatory .auth-modal {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
 .auth-modal {
   width: 100%;
   max-width: 420px;

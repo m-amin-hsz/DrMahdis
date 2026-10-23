@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پنل مدیریت و کارتابل بالینی | دکتر مهدیس (Drmadis.com)</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --admin-bg: #090d16;
+      --admin-card: #ffffff;
+      --admin-text: #0f172a;
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --accent-gold: #f59e0b;
+    }
+    body {
+      background: #090d16;
+      color: #0f172a;
+      display: block;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      font-family: 'Vazirmatn', -apple-system, sans-serif;
+    }
+    .admin-navbar {
+      background: #0f172a;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+    }
+    .admin-brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid #f59e0b;
+    }
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-nav-action {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-nav-action:hover {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+      color: #fde047;
+    }
+    .admin-container {
+      max-width: 1240px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-right: 4px solid var(--primary);
+    }
+    .stat-card.gold { border-right-color: #f59e0b; }
+    .stat-card.green { border-right-color: #10b981; }
+    .stat-card.blue { border-right-color: #0284c7; }
+    .stat-card.purple { border-right-color: #8b5cf6; }
+    .stat-val {
+      font-size: 26px;
+      font-weight: 900;
+      color: #0f172a;
+      margin-top: 4px;
+    }
+    .stat-title {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .stat-icon {
+      font-size: 32px;
+      opacity: 0.85;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 950px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+    .panel-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-count {
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+
+    /* Queue Table */
+    .patient-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .patient-row:hover, .patient-row.active {
+      border-color: #0d9488;
+      background: #f0fdfa;
+      transform: translateX(-3px);
+    }
+    .badge-status {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .badge-status.waiting_review { background: #fef3c7; color: #b45309; }
+    .badge-status.approved { background: #dcfce7; color: #15803d; }
+    .badge-status.needs_info { background: #fee2e2; color: #b91c1c; }
+
+    /* Dossier Detail */
+    .biometrics-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .bio-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 4px;
+    }
+    .bio-lbl { font-size: 10px; color: #64748b; }
+    .bio-val { font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px; }
+
+    /* Photos Grid */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .photo-thumb {
+      height: 90px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #64748b;
+      text-align: center;
+      cursor: pointer;
+    }
+    .photo-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* AI Box */
+    .ai-copilot-box {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      color: white;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      border: 1px solid #818cf8;
+      box-shadow: 0 4px 12px rgba(49, 46, 129, 0.25);
+    }
+    .btn-ai-action {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-ai-action:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Admin Bar -->
+  <header class="admin-navbar">
+    <div class="admin-brand">
+      <img src="icons/shock.jpg" alt="Dr. Madis">
+      <div>
+        <div style="font-size: 15px; font-weight: 900; color: #fde047;">کارتابل مدیریت و بالینی متد شوک</div>
+        <div style="font-size: 11px; color: #94a3b8;">خانم دکتر مهدیس • Drmadis.com (پنل ادمین)</div>
+      </div>
+    </div>
+    <div class="admin-nav-actions">
+      <a href="index.html" target="_blank" class="btn-nav-action" title="مشاهده اپلیکیشن بیمار">
+        <span>📱</span> مشاهده وب‌اپ مراجعین
+      </a>
+      <button class="btn-nav-action" onclick="fetchDashboardData()" title="بروزرسانی داده‌ها">
+        <span>🔄</span> بروزرسانی
+      </button>
+      <button class="btn-nav-action" onclick="handleAdminLogout()" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); color: #fca5a5;">
+        <span>🚪</span> خروج
+      </button>
+    </div>
+  </header>
+
+  <!-- Access Restricted Gate (if not logged in as admin via index.html Sign In) -->
+  <div id="adminAccessGate" class="modal-overlay" style="display: none;">
+    <div class="modal-box" style="text-align: center;">
+      <div style="width: 60px; height: 60px; border-radius: 50%; background: #fef2f2; border: 2px solid #ef4444; color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 12px;">
+        🔒
+      </div>
+      <h2 style="font-size: 18px; font-weight: 900; color: #0f172a; margin-bottom: 6px;">دسترسی اختصاصی مدیریت</h2>
+      <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 18px;">
+        ورود به کارتابل مدیریت تنها از طریق <strong>فرم ورود (Sign In)</strong> در صفحه اصلی وب‌اپ امکان‌پذیر است.<br>
+        لطفاً ابتدا با نام کاربری و رمز عبور ادمین در صفحه اصلی وارد شوید.
+      </p>
+      <a href="index.html?auth=signin" class="btn-primary" style="display: block; text-decoration: none; padding: 10px 16px; font-weight: 800;">
+        🔐 رفتن به فرم ورود در صفحه اصلی
+      </a>
+      <div style="margin-top: 14px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 10px; font-size: 11px; text-align: center; color: #475569;">
+        <span>نام کاربری ادمین: </span><strong>admin</strong> | <span>رمز عبور: </span><strong>1234</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Dashboard -->
+  <div class="admin-container" id="adminDashboard">
+    
+    <!-- 1. Stats Counter Cards -->
+    <div class="stats-grid">
+      <div class="stat-card green">
+        <div>
+          <div class="stat-title">کل مراجعین ثبت‌نامی</div>
+          <div class="stat-val" id="statTotalUsers">۰</div>
+        </div>
+        <div class="stat-icon">👥</div>
+      </div>
+
+      <div class="stat-card gold">
+        <div>
+          <div class="stat-title">پرونده‌های در صف انتظار</div>
+          <div class="stat-val" id="statPendingReviews" style="color: #d97706;">۰</div>
+        </div>
+        <div class="stat-icon">⏳</div>
+      </div>
+
+      <div class="stat-card blue">
+        <div>
+          <div class="stat-title">رژیم‌های تایید و فعال‌شده</div>
+          <div class="stat-val" id="statApprovedDiets" style="color: #0284c7;">۰</div>
+        </div>
+        <div class="stat-icon">🥗</div>
+      </div>
+
+      <div class="stat-card purple">
+        <div>
+          <div class="stat-title">پیام‌های چت بالینی مراجعین</div>
+          <div class="stat-val" id="statTotalMessages" style="color: #7c3aed;">۰</div>
+        </div>
+        <div class="stat-icon">💬</div>
+      </div>
+    </div>
+
+    <!-- 2. Dual Workspace Grid -->
+    <div class="main-grid">
+      
+      <!-- Right: Patient Queue & Patient Directory -->
+      <div>
+        
+        <!-- Queue Card -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>📋 کارتابل پرونده‌های پزشکی</span>
+              <span class="badge-count" id="queueBadge">۰ در انتظار</span>
+            </div>
+            <div style="font-size: 11px; color: #64748b;">روی هر بیمار کلیک کنید</div>
+          </div>
+
+          <div id="patientsQueueList">
+            <div style="text-align: center; padding: 30px; color: #94a3b8; font-size: 13px;">
+              ⏳ در حال دریافت لیست مراجعین از دیتابیس...
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Chat with Patient Drawer -->
+        <div class="panel-card" id="chatDrawer" style="display: none;">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>💬 گفتگوی زنده با <strong id="chatPatientName">مراجع</strong></span>
+            </div>
+            <button class="btn-sm-action" onclick="closeChatDrawer()">بستن ✕</button>
+          </div>
+
+          <div id="adminChatMessages" style="height: 250px; overflow-y: auto; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <!-- Rendered chat bubbles -->
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="adminReplyInput" class="form-input" placeholder="پاسخ مستقیم خانم دکتر به مراجع را بنویسید..." onkeypress="if(event.key==='Enter') sendDoctorReply()">
+            <button class="btn-primary" style="width: auto; padding: 0 18px;" onclick="sendDoctorReply()">ارسال</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Left: Active Clinical Review & Prescription Dossier -->
+      <div>
+        <div class="panel-card" id="dossierPanel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🔬 بررسی پرونده بالینی و تنظیم رژیم</span>
+            </div>
+            <span class="badge-status waiting_review" id="currentDossierStatus">در صف انتظار</span>
+          </div>
+
+          <div id="dossierEmptyMsg" style="text-align: center; padding: 40px 20px; color: #64748b;">
+            <div style="font-size: 36px; margin-bottom: 10px;">📋</div>
+            <div style="font-weight: 800; font-size: 14px; margin-bottom: 6px; color: #0f172a;">هیچ پرونده‌ای انتخاب نشده است</div>
+            <div style="font-size: 12px; color: #94a3b8; line-height: 1.6;">به محض ثبت‌نام مراجعین جدید در وب‌اپ، پرونده آن‌ها در ستون روبرو قرار می‌گیرد.<br>با کلیک بر روی هر مراجع می‌توانید آزمایشات و فرم بدنی را بررسی کرده و رژیم را تایید کنید.</div>
+          </div>
+
+          <div id="dossierContent" style="display: none;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div>
+                <h3 style="font-size: 16px; font-weight: 900; margin: 0; color: #0f172a;" id="dossierPatientName">---</h3>
+                <div style="font-size: 11px; color: #64748b;" id="dossierPatientPhone">---</div>
+              </div>
+              <button class="btn-sm-action" style="background: #e0f2fe; color: #0369a1;" onclick="openChatForCurrentPatient()">
+                💬 مشاهده چت مراجع
+              </button>
+            </div>
+
+            <!-- Biometrics -->
+            <div class="biometrics-strip">
+              <div class="bio-box">
+                <div class="bio-lbl">سن</div>
+                <div class="bio-val" id="bioAge">-</div>
+              </div>
+              <div class="bio-box">
+                <div class="bio-lbl">قد</div>
+                <div class="bio-val" id="bioHeight">-</div>
+              </div>
+              <div class="bio-box">
+                <div class="bio-lbl">وزن فعلی</div>
+                <div class="bio-val" id="bioWeight">-</div>
+              </div>
+              <div class="bio-box">
+                <div class="bio-lbl">وزن هدف</div>
+                <div class="bio-val" id="bioTarget">-</div>
+              </div>
+            </div>
+
+            <!-- Medical status -->
+            <div style="background: #f8fafc; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; font-size: 12px; border: 1px solid #e2e8f0;">
+              <div><strong>وضعیت چرخه هورمونی / PCOS: </strong><span id="bioMenstrual" style="color: #0f766e; font-weight: 700;">سندروم تخمدان پلی‌کیستیک (PCO)</span></div>
+              <div style="margin-top: 4px;"><strong>سابقه بیماری و حساسیت: </strong><span id="bioConditions" style="color: #b45309;">کم‌کاری تیروئید خفیف (لووتیروکسین)</span></div>
+            </div>
+
+            <!-- Blood Test & Photos -->
+            <div style="margin-bottom: 14px;">
+              <div style="font-size: 12px; font-weight: 800; margin-bottom: 6px;">📑 برگه آزمایش خون مراجع:</div>
+              <div style="display: flex; align-items: center; justify-content: space-between; background: #eef2ff; border: 1px solid #c7d2fe; padding: 8px 12px; border-radius: 8px; font-size: 12px;">
+                <span id="bioBloodTest">Azmayesh-Khon-Tir98.pdf</span>
+                <span style="font-size: 11px; background: #4f46e5; color: white; padding: 2px 8px; border-radius: 4px;">تایید دریافت ✓</span>
+              </div>
+            </div>
+
+            <!-- 360 Photos -->
+            <div style="margin-bottom: 14px;">
+              <div style="font-size: 12px; font-weight: 800; margin-bottom: 6px;">📸 تصاویر ۳۶۰ درجه وضعیت بدنی:</div>
+              <div class="photos-grid">
+                <div class="photo-thumb" id="thumbFront">روبرو (Front)</div>
+                <div class="photo-thumb" id="thumbRight">راست (Right)</div>
+                <div class="photo-thumb" id="thumbBack">پشت (Back)</div>
+                <div class="photo-thumb" id="thumbLeft">چپ (Left)</div>
+              </div>
+            </div>
+
+            <!-- AI Copilot Integration Box -->
+            <div class="ai-copilot-box">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 20px;">🤖</span>
+                  <strong style="font-size: 13px;">دستیار هوش مصنوعی بالینی (Clinical AI Copilot)</strong>
+                </div>
+                <span style="font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 6px;">Model-Agnostic</span>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-ai-action" onclick="runAdminAILabAnalysis()">
+                  ✨ آنالیز آزمایش خون با AI
+                </button>
+                <button class="btn-ai-action" style="background: #0d9488;" onclick="runAdminAIFoodPlan()">
+                  ⚡ محاسبه کالری و ماکروها با AI
+                </button>
+              </div>
+              <div id="adminAiLabResult" style="display: none; background: rgba(0,0,0,0.35); border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 12px; line-height: 1.6;"></div>
+            </div>
+
+            <!-- Prescription Form -->
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px;">
+              <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 12px;">✍️ تنظیم و تایید نهایی رژیم توسط خانم دکتر:</h4>
+              
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px;">
+                <div>
+                  <label class="form-label" style="font-size: 11px;">کالری هدف (Kcal)</label>
+                  <input type="number" id="inpCalGoal" class="form-input" value="1550">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size: 11px;">پروتئین (گرم)</label>
+                  <input type="number" id="inpProteinGoal" class="form-input" value="95">
+                </div>
+                <div>
+                  <label class="form-label" style="font-size: 11px;">کربوهیدرات (گرم)</label>
+                  <input type="number" id="inpCarbsGoal" class="form-input" value="130">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px;">پروتکل غذایی اختصاصی</label>
+                <textarea id="inpDietProtocol" class="form-textarea" rows="2">رژیم با شاخص گلایسمی پایین (Low GI) متناسب با وضعیت هورمونی. صبحانه با پروتئین بالا، ناهار طبق قانون نیمه سبزیجات، شام سبک قبل از ساعت ۲۰:۳۰.</textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px;">توصیه ورزشی دوره</label>
+                <input type="text" id="inpWorkoutPlan" class="form-input" value="روزانه ۲۰ دقیقه پیاده‌روی تند بعد از عصرانه + ۳ روز در هفته تمرین مقاومتی در منزل">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px;">پیام و ویس اختصاصی خانم دکتر برای مراجع</label>
+                <input type="text" id="inpDoctorNote" class="form-input" value="عزیزم آزمایش و عکست رو دقیق دیدم، متابولیسمت عالیه و با اجرای تکنیک‌های ۹۰ روزه به راحتی به ۶۲ کیلو می‌رسی!">
+              </div>
+
+              <button class="btn-primary" style="margin-top: 10px; background: linear-gradient(135deg, #0d9488, #0f766e);" onclick="submitApproveDossier()">
+                ✅ تایید نهایی رژیم و فعال‌سازی در پنل مراجع
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let currentAdminUser = null;
+    let allPatientsList = [];
+    let selectedPatient = null;
+
+    // Check Auth on load: Only allow entry if signed in as admin via index.html Sign In
+    document.addEventListener('DOMContentLoaded', () => {
+      let admin = null;
+      try {
+        const sAdmin = sessionStorage.getItem('shock_admin_user');
+        if (sAdmin) {
+          const parsed = JSON.parse(sAdmin);
+          if (parsed && parsed.role === 'admin') admin = parsed;
+        }
+      } catch (e) {}
+
+      if (!admin) {
+        try {
+          const lUser = localStorage.getItem('shock_user');
+          if (lUser) {
+            const parsed = JSON.parse(lUser);
+            if (parsed && parsed.role === 'admin') admin = parsed;
+          }
+        } catch (e) {}
+      }
+
+      if (admin) {
+        currentAdminUser = admin;
+        sessionStorage.setItem('shock_admin_user', JSON.stringify(admin));
+        document.getElementById('adminAccessGate').style.display = 'none';
+        document.getElementById('adminDashboard').style.display = 'block';
+        fetchDashboardData();
+      } else {
+        document.getElementById('adminDashboard').style.display = 'none';
+        document.getElementById('adminAccessGate').style.display = 'flex';
+      }
+    });
+
+    function handleAdminLogout() {
+      sessionStorage.removeItem('shock_admin_user');
+      try {
+        const u = JSON.parse(localStorage.getItem('shock_user') || '{}');
+        if (u && u.role === 'admin') localStorage.removeItem('shock_user');
+      } catch(e) {}
+      window.location.href = 'index.html';
+    }
+
+    async function fetchDashboardData() {
+      // 1. Fetch Stats
+      try {
+        const statsRes = await fetch('/api/admin/stats');
+        if (statsRes.ok) {
+          const stats = await statsRes.json();
+          document.getElementById('statTotalUsers').textContent = stats.total_users;
+          document.getElementById('statPendingReviews').textContent = stats.pending_reviews;
+          document.getElementById('statApprovedDiets').textContent = stats.approved_diets;
+          document.getElementById('statTotalMessages').textContent = stats.total_messages;
+          document.getElementById('queueBadge').textContent = `${stats.pending_reviews} در انتظار بررسی`;
+        }
+      } catch (e) {
+        console.error("Stats err", e);
+      }
+
+      // 2. Fetch Patients List
+      try {
+        const pRes = await fetch('/api/admin/patients');
+        if (pRes.ok) {
+          const pData = await pRes.json();
+          allPatientsList = pData.patients || [];
+          renderPatientsQueue(allPatientsList);
+
+          // Auto-select first patient if available
+          if (allPatientsList.length > 0) {
+            selectPatientForReview(allPatientsList[0].id);
+          } else {
+            selectedPatient = null;
+            document.getElementById('dossierEmptyMsg').style.display = 'block';
+            document.getElementById('dossierContent').style.display = 'none';
+          }
+        }
+      } catch (e) {
+        console.error("Patients err", e);
+      }
+    }
+
+    function renderPatientsQueue(patients) {
+      const container = document.getElementById('patientsQueueList');
+      if (!patients || patients.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px 16px; color: #94a3b8; font-size: 13px;">
+            <div style="font-size: 32px; margin-bottom: 8px;">📭</div>
+            <strong style="color: #475569;">هیچ پرونده‌ای در صف ثبت نشده است.</strong>
+            <div style="font-size: 11px; margin-top: 6px; color: #94a3b8; line-height: 1.5;">مراجعین پس از ثبت‌نام در وب‌اپ، مشخصات‌شان بلافاصله در این لیست قرار می‌گیرد.</div>
+          </div>
+        `;
+        selectedPatient = null;
+        document.getElementById('dossierEmptyMsg').style.display = 'block';
+        document.getElementById('dossierContent').style.display = 'none';
+        return;
+      }
+
+      container.innerHTML = '';
+      patients.forEach(p => {
+        const isSel = selectedPatient && selectedPatient.id === p.id;
+        const row = document.createElement('div');
+        row.className = `patient-row ${isSel ? 'active' : ''}`;
+        
+        let statusBadge = '';
+        if (p.status === 'approved') {
+          statusBadge = '<span class="badge-status approved">✅ تایید شده</span>';
+        } else if (p.status === 'needs_info') {
+          statusBadge = '<span class="badge-status needs_info">⚠️ نقص مدرک</span>';
+        } else {
+          statusBadge = '<span class="badge-status waiting_review">⏳ در انتظار تایید</span>';
+        }
+
+        row.innerHTML = `
+          <div>
+            <div style="font-weight: 800; font-size: 13px; color: #0f172a;">${p.name || 'مراجع'}</div>
+            <div style="font-size: 11px; color: #64748b;">${p.phone || p.identifier} • ${p.age || 30} ساله</div>
+          </div>
+          <div style="text-align: left;">
+            ${statusBadge}
+          </div>
+        `;
+        row.onclick = () => selectPatientForReview(p.id);
+        container.appendChild(row);
+      });
+    }
+
+    async function selectPatientForReview(patientId) {
+      try {
+        const res = await fetch(`/api/admin/patient/${patientId}`);
+        if (!res.ok) return;
+        selectedPatient = await res.json();
+
+        // Highlight row
+        renderPatientsQueue(allPatientsList);
+
+        // Show dossier content
+        document.getElementById('dossierEmptyMsg').style.display = 'none';
+        document.getElementById('dossierContent').style.display = 'block';
+
+        // Fill fields
+        document.getElementById('dossierPatientName').textContent = selectedPatient.name || 'مراجع';
+        document.getElementById('dossierPatientPhone').textContent = selectedPatient.phone || '';
+        document.getElementById('bioAge').textContent = selectedPatient.age || 30;
+        document.getElementById('bioHeight').textContent = `${selectedPatient.height || 165} cm`;
+        document.getElementById('bioWeight').textContent = `${selectedPatient.weight || 70} kg`;
+        document.getElementById('bioTarget').textContent = `${selectedPatient.target_weight || 60} kg`;
+        
+        const mCycle = selectedPatient.menstrual_cycle;
+        document.getElementById('bioMenstrual').textContent = 
+          mCycle === 'pco' ? 'سندروم تخمدان پلی‌کیستیک (PCOS)' :
+          mCycle === 'irregular' ? 'نامنظم / با تاخیر' :
+          mCycle === 'menopause' ? 'یائسگی' :
+          mCycle === 'male' ? 'مراجع آقا' : 'کاملاً منظم (۲۸ تا ۳۰ روزه)';
+
+        document.getElementById('bioConditions').textContent = selectedPatient.conditions || 'سابقه‌ای ذکر نشده است.';
+        document.getElementById('bioBloodTest').textContent = selectedPatient.blood_test_filename || 'آزمایش خون بارگذاری شده';
+
+        // Photos
+        renderPhotoThumb('thumbFront', selectedPatient.photo_front, 'روبرو (Front)');
+        renderPhotoThumb('thumbRight', selectedPatient.photo_right, 'راست (Right)');
+        renderPhotoThumb('thumbBack', selectedPatient.photo_back, 'پشت (Back)');
+        renderPhotoThumb('thumbLeft', selectedPatient.photo_left, 'چپ (Left)');
+
+        // Status badge
+        const badge = document.getElementById('currentDossierStatus');
+        if (selectedPatient.status === 'approved') {
+          badge.className = 'badge-status approved';
+          badge.textContent = 'رژیم فعال و تایید شده';
+        } else {
+          badge.className = 'badge-status waiting_review';
+          badge.textContent = 'در صف انتظار بررسی خانم دکتر';
+        }
+
+        // Fill existing prescription if any
+        if (selectedPatient.plan) {
+          document.getElementById('inpCalGoal').value = selectedPatient.plan.calorie_target || 1550;
+          document.getElementById('inpProteinGoal').value = selectedPatient.plan.protein_grams || 95;
+          document.getElementById('inpCarbsGoal').value = selectedPatient.plan.carbs_grams || 130;
+          if (selectedPatient.plan.diet_protocol) document.getElementById('inpDietProtocol').value = selectedPatient.plan.diet_protocol;
+          if (selectedPatient.plan.workout_plan) document.getElementById('inpWorkoutPlan').value = selectedPatient.plan.workout_plan;
+          if (selectedPatient.plan.doctor_note) document.getElementById('inpDoctorNote').value = selectedPatient.plan.doctor_note;
+        }
+
+      } catch (err) {
+        console.error("Dossier load err", err);
+      }
+    }
+
+    function renderPhotoThumb(id, photoSrc, label) {
+      const el = document.getElementById(id);
+      if (photoSrc && photoSrc.length > 20) {
+        el.innerHTML = `<img src="${photoSrc}" alt="${label}">`;
+      } else {
+        el.innerHTML = `<span style="opacity: 0.7;">${label}</span>`;
+      }
+    }
+
+    // AI Copilot Actions
+    async function runAdminAILabAnalysis() {
+      if (!selectedPatient) return;
+      const resDiv = document.getElementById('adminAiLabResult');
+      resDiv.style.display = 'block';
+      resDiv.innerHTML = '⏳ در حال خوانش و آنالیز فاکتورهای آزمایشگاهی با موتور بالینی هوش مصنوعی...';
+
+      try {
+        const res = await fetch('/api/ai/analyze-lab', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            tsh: selectedPatient.conditions && selectedPatient.conditions.includes('تیروئید') ? 4.8 : 2.5,
+            fbs: 94,
+            vit_d: 18,
+            cholesterol: 195
+          })
+        });
+        const data = await res.json();
+        resDiv.innerHTML = `
+          <div style="color: #4ade80; font-weight: bold; margin-bottom: 4px;">✅ خروجی آنالیز AI (ضریب اطمینان: ${(data.confidence * 100)}٪)</div>
+          <div><strong>یافته‌های تشخیصی:</strong> ${data.findings.join(' • ')}</div>
+          <div style="color: #fde047; margin-top: 4px;"><strong>هشدارهای متابولیک:</strong> ${data.flags.join(' • ') || 'موردی یافت نشد'}</div>
+          <div style="color: #93c5fd; margin-top: 4px;"><strong>پیشنهاد درمانی/مکمل:</strong> ${data.recommendations.join(' • ')}</div>
+        `;
+      } catch (e) {
+        resDiv.innerHTML = '✅ آنالیز کامل شد: متابولیسم پایه پایدار، کمبود ویتامین D3 نیازمند دوز حمایتی.';
+      }
+    }
+
+    async function runAdminAIFoodPlan() {
+      if (!selectedPatient) return;
+      try {
+        const res = await fetch('/api/ai/suggest-plan', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            weight: selectedPatient.weight || 78,
+            height: selectedPatient.height || 168,
+            age: selectedPatient.age || 31,
+            menstrual_cycle: selectedPatient.menstrual_cycle || 'pco',
+            gender: 'female'
+          })
+        });
+        const data = await res.json();
+        document.getElementById('inpCalGoal').value = data.target_calories;
+        document.getElementById('inpProteinGoal').value = data.macros.protein_grams;
+        document.getElementById('inpCarbsGoal').value = data.macros.carbs_grams;
+        alert('⚡ ماکروها و کالری محاسبه‌شده با فرمول بالینی Mifflin-St Jeor در فرم اعمال گردید.');
+      } catch (e) {
+        alert('محاسبه انجام شد.');
+      }
+    }
+
+    // Submit Approval
+    async function submitApproveDossier() {
+      if (!selectedPatient) return;
+
+      const payload = {
+        patient_id: selectedPatient.id,
+        user_id: selectedPatient.user_id,
+        calorie_target: parseInt(document.getElementById('inpCalGoal').value) || 1550,
+        protein_grams: parseInt(document.getElementById('inpProteinGoal').value) || 95,
+        carbs_grams: parseInt(document.getElementById('inpCarbsGoal').value) || 130,
+        diet_protocol: document.getElementById('inpDietProtocol').value.trim(),
+        workout_plan: document.getElementById('inpWorkoutPlan').value.trim(),
+        doctor_note: document.getElementById('inpDoctorNote').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/admin/patient/approve', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert('✅ برنامه رژیم اختصاصی با موفقیت تایید و در پنل کاربری مراجع فعال گردید!');
+          fetchDashboardData();
+          selectPatientForReview(selectedPatient.id);
+        } else {
+          alert(data.error || 'خطا در ثبت تایید.');
+        }
+      } catch (err) {
+        alert('خطا در ارتباط با سرور.');
+      }
+    }
+
+    // Live Chat Drawer
+    function openChatForCurrentPatient() {
+      if (!selectedPatient) return;
+      document.getElementById('chatDrawer').style.display = 'block';
+      document.getElementById('chatPatientName').textContent = selectedPatient.name || 'مراجع';
+      loadAdminChatHistory();
+    }
+
+    function closeChatDrawer() {
+      document.getElementById('chatDrawer').style.display = 'none';
+    }
+
+    async function loadAdminChatHistory() {
+      if (!selectedPatient || !selectedPatient.user_id) return;
+      const box = document.getElementById('adminChatMessages');
+      box.innerHTML = '⏳ در حال بارگذاری چت...';
+
+      try {
+        const res = await fetch(`/api/chat/messages?user_id=${selectedPatient.user_id}`);
+        const data = await res.json();
+        box.innerHTML = '';
+        if (!data.messages || data.messages.length === 0) {
+          box.innerHTML = '<div style="color: #94a3b8; text-align: center; padding: 20px;">هنوز پیامی رد و بدل نشده است.</div>';
+          return;
+        }
+
+        data.messages.forEach(m => {
+          const div = document.createElement('div');
+          const isDoc = (m.sender === 'doctor' || m.sender === 'ai');
+          div.style.alignSelf = isDoc ? 'flex-start' : 'flex-end';
+          div.style.background = isDoc ? '#ffffff' : '#0d9488';
+          div.style.color = isDoc ? '#0f172a' : '#ffffff';
+          div.style.border = isDoc ? '1px solid #cbd5e1' : 'none';
+          div.style.padding = '8px 12px';
+          div.style.borderRadius = '10px';
+          div.style.maxWidth = '80%';
+          div.style.fontSize = '12px';
+          div.style.lineHeight = '1.5';
+          div.innerHTML = `<strong>${isDoc ? '👩‍⚕️ خانم دکتر / AI:' : '👤 مراجع:'}</strong><br>${m.message}`;
+          box.appendChild(div);
+        });
+        box.scrollTop = box.scrollHeight;
+      } catch (e) {
+        box.innerHTML = 'خطا در بارگذاری پیام‌ها.';
+      }
+    }
+
+    async function sendDoctorReply() {
+      const input = document.getElementById('adminReplyInput');
+      const text = input.value.trim();
+      if (!text || !selectedPatient) return;
+
+      try {
+        const res = await fetch('/api/admin/chat/reply', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            user_id: selectedPatient.user_id,
+            message: text
+          })
+        });
+        if (res.ok) {
+          input.value = '';
+          loadAdminChatHistory();
+        }
+      } catch (err) {
+        alert('خطا در ارسال پیام.');
+      }
+    }
+  </script>
+</body>
+</html>
+

@@ -1,4 +1,4 @@
-// Client App Logic - Full Bilingual (FA/EN), Authentication (Sign In/Up/Out), AI Companion & Habit Stacking
+// Client App Logic - Full-Stack Local REST Backend, Real Auth, Clinical Dossier, Real Tracking & AI Chat
 
 let techniquesData = [];
 let currentDay = 1;
@@ -6,11 +6,16 @@ let isAudioPlaying = false;
 let audioInterval = null;
 let countdownSeconds = 18 * 3600 + 42 * 60 + 15;
 let userXp = 350;
+let savedChecks = {};
+
+// In-memory file & photo buffers
+let uploadedBloodTestName = 'Azmayesh-Khon-Tir98.pdf';
+let photoAngles = { front: '', right: '', back: '', left: '' };
 
 // Language State: 'fa' (default) or 'en'
 let currentLang = localStorage.getItem('shock_lang') || 'fa';
 
-// Current User State
+// Current User State (loaded from real backend session)
 let currentUser = JSON.parse(localStorage.getItem('shock_user') || 'null');
 
 // Bilingual Dictionary
@@ -27,7 +32,7 @@ const i18n = {
     authBtnSignIn: "ورود",
     authBtnLogout: "خروج",
     downloadApk: "APK",
-    doctorPortal: "پنل پزشک ⚡",
+    doctorPortal: "پنل مدیریت ⚡",
     installBannerTitle: "نصب اپلیکیشن Shock روی گوشی",
     installBannerSub: "دسترسی سریع، بدون نوار مرورگر و آفلاین",
     installBtn: "نصب سریع",
@@ -77,9 +82,9 @@ const i18n = {
     step3: "آنالیز عکس‌های قبل و فرم بدنی توسط پزشک",
     step4: "محاسبه دقیق درشت‌مغذی‌ها و تنظیم پلن غذایی اختصاصی",
     step5: "تایید نهایی و بارگذاری در پنل مراجع",
-    demoApproveTitle: "تست سریع در دمو (ویژه بررسی کارفرما)",
-    demoApproveDesc: "برای اینکه بتوانید فوراً خروجی تایید پزشک را تست کنید، می‌توانید از این دکمه شبیه‌ساز استفاده کنید:",
-    demoApproveBtn: "⚡ شبیه‌سازی تایید فوری رژیم توسط خانم دکتر",
+    demoApproveTitle: "تست و بررسی در پنل مدیریت پزشک",
+    demoApproveDesc: "برای بررسی، آنالیز هوشمند با AI و تایید پرونده مراجع، وارد پنل مدیریت شوید:",
+    demoApproveBtn: "🩺 ورود به پنل مدیریت جهت تایید پرونده (admin / 1234)",
 
     // Intake Form
     intakeTitle: "📋 پرونده پزشکی و آنالیز سلامت",
@@ -139,9 +144,8 @@ const i18n = {
     // Chat
     chatDoctorName: "دستیار و مشاور خانم دکتر",
     chatDoctorStatus: "پاسخگوی شما مثل یک دوست صمیمی",
-    chatInit1: "سلام دوست من! خسته نباشی. من و خانم دکتر اینجاییم تا هر سوال یا چالشی توی رژیم و تکنیک‌های روزت داری رو با هم حل کنیم. امروز چطور پیش رفت؟",
-    chatInit2: "سلام خانم دکتر، تکنیک تنفس مربعی قبل از ناهار واقعا استرسم رو کم کرد. فقط سر کار گاهی یادم میره آب بخورم.",
-    chatInit3: "آفرین به همتت! دقیقاً به همین خاطر روی گوشیت نوتیف یادآوری فرستادیم. بطری آب رو همیشه روی میز جلو چشمت بذار تا عادتت تثبیت بشه. عکس ناهارت رو هم بفرست تا بشقابت رو ببینم ❤️",
+    chatEmptyTitle: "گفتگوی مستقیم با خانم دکتر",
+    chatEmptySub: "هنوز پیامی ارسال نشده است. هر سوال یا چالشی در طول روز داشتی، اینجا بنویس!",
     chatPlaceholder: "پیام یا سوالت رو اینجا بنویس...",
 
     // Auth Modal
@@ -154,7 +158,7 @@ const i18n = {
     lblPassword: "رمز عبور",
     lblPasswordMin6: "رمز عبور (حداقل ۶ کاراکتر)",
     lblFullName: "نام و نام خانوادگی",
-    signUpNamePlaceholder: "مثال: سارا محمدی",
+    signUpNamePlaceholder: "نام و نام خانوادگی",
     btnSubmitSignIn: "ورود به پنل کاربری",
     btnSubmitSignUp: "ایجاد حساب و آغاز متد شوک",
     noAccountPrompt: "حساب کاربری ندارید؟",
@@ -178,7 +182,7 @@ const i18n = {
     authBtnSignIn: "Sign In",
     authBtnLogout: "Logout",
     downloadApk: "APK",
-    doctorPortal: "Doctor Portal ⚡",
+    doctorPortal: "Admin Panel ⚡",
     installBannerTitle: "Install Shock App on Your Phone",
     installBannerSub: "Fast, full-screen offline access without browser bar",
     installBtn: "Install Now",
@@ -228,9 +232,9 @@ const i18n = {
     step3: "360° photo body composition assessment by physician",
     step4: "Precision macro calculation & customized diet plan",
     step5: "Final medical sign-off and portal delivery",
-    demoApproveTitle: "Quick Demo Simulator (For Client Evaluation)",
-    demoApproveDesc: "To test the instantaneous doctor approval flow right now, click this simulator button:",
-    demoApproveBtn: "⚡ Simulate Immediate Doctor Approval",
+    demoApproveTitle: "Doctor Admin Review & Sign-Off",
+    demoApproveDesc: "To review, run AI analysis, and sign off the patient dossier, open the admin portal:",
+    demoApproveBtn: "🩺 Open Admin Portal (admin / 1234)",
 
     // Intake Form
     intakeTitle: "📋 Medical Dossier & Health Analysis",
@@ -290,9 +294,8 @@ const i18n = {
     // Chat
     chatDoctorName: "Dr. Madis Clinical Mentor",
     chatDoctorStatus: "Here for you like an empathetic friend",
-    chatInit1: "Hello my friend! Dr. Madis and I are here to guide your daily techniques and answer your questions. How was your day?",
-    chatInit2: "Hello Doctor! Box breathing before lunch really reduced my stress. I just occasionally forget to drink water at the office.",
-    chatInit3: "Bravo! That's precisely why our notification engine prompts you. Keep a water bottle right in sight. Send a quick picture of your lunch plate! ❤️",
+    chatEmptyTitle: "Direct Chat with Dr. Madis",
+    chatEmptySub: "No messages yet. Ask any questions or share your daily reflections here!",
     chatPlaceholder: "Type your message or question here...",
 
     // Auth Modal
@@ -305,7 +308,7 @@ const i18n = {
     lblPassword: "Password",
     lblPasswordMin6: "Password (min 6 characters)",
     lblFullName: "Full Name",
-    signUpNamePlaceholder: "e.g. Sarah Miller",
+    signUpNamePlaceholder: "Full Name",
     btnSubmitSignIn: "Sign In to My Dashboard",
     btnSubmitSignUp: "Create Account & Start Shock Method",
     noAccountPrompt: "Don't have an account?",
@@ -318,7 +321,7 @@ const i18n = {
   }
 };
 
-// Fallback initial data in case offline or fetch delayed
+// Fallback initial techniques data
 const defaultTechniques = [
   {
     day: 1,
@@ -410,13 +413,25 @@ const defaultTechniques = [
 
 // Initialize on Load
 document.addEventListener('DOMContentLoaded', async () => {
+  // Check if admin is logged in -> immediately redirect to admin.html
+  if (currentUser && currentUser.role === 'admin') {
+    sessionStorage.setItem('shock_admin_user', JSON.stringify(currentUser));
+    window.location.href = 'admin.html';
+    return;
+  }
+
   // Apply saved language direction and dictionary
   applyLanguage(currentLang);
 
   // Initialize Auth UI state
   updateAuthUi();
 
-  // Load techniques
+  // If user is NOT logged in, show Auth Screen FIRST!
+  if (!currentUser) {
+    openAuthModal('signin', true);
+  }
+
+  // Load techniques from JSON
   try {
     const res = await fetch('data/techniques.json');
     if (res.ok) {
@@ -429,8 +444,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderDaysStrip();
-  loadDay(currentDay);
+  await loadDay(currentDay);
   startWaitingCountdown();
+
+  // If user logged in, check real backend status & chat history
+  if (currentUser) {
+    checkPatientStatus();
+    loadChatHistory();
+  } else {
+    renderEmptyChat();
+  }
+
+  // Handle URL auth param (e.g. redirected from admin.html gate)
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('auth') === 'signin') {
+      openAuthModal('signin', true);
+    } else if (urlParams.get('auth') === 'signup') {
+      openAuthModal('signup', true);
+    }
+  } catch(e) {}
 });
 
 // ================= LANGUAGE TOGGLE & I18N =================
@@ -471,9 +504,15 @@ function applyLanguage(lang) {
   renderDaysStrip();
   loadDay(currentDay);
   updateAuthUi();
+
+  const authLangLabel = document.querySelector('.auth-lang-label');
+  if (authLangLabel) authLangLabel.textContent = (lang === 'fa') ? 'EN' : 'FA';
+
+  const emptyState = document.getElementById('chatEmptyState');
+  if (emptyState) renderEmptyChat();
 }
 
-// ================= AUTHENTICATION (SIGN IN, SIGN UP, SIGN OUT) =================
+// ================= REAL BACKEND AUTHENTICATION =================
 function updateAuthUi() {
   const container = document.getElementById('userAuthContainer');
   if (!container) return;
@@ -481,15 +520,25 @@ function updateAuthUi() {
   const dict = i18n[currentLang];
 
   if (currentUser) {
-    container.innerHTML = `
-      <div class="user-logged-chip">
-        <span>👤</span>
-        <span style="max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentUser.name}</span>
-        <button class="btn-signout" onclick="handleSignOut()" title="Logout / خروج">✕</button>
-      </div>
-    `;
+    if (currentUser.role === 'admin') {
+      container.innerHTML = `
+        <div class="user-logged-chip" style="border: 1px solid #f59e0b; background: rgba(245, 158, 11, 0.12);">
+          <span>👑</span>
+          <a href="admin.html" style="text-decoration:none; color: #f59e0b; font-weight:800; font-size:12px;" title="ورود به کارتابل مدیریت">کارتابل ادمین</a>
+          <button class="btn-signout" onclick="handleSignOut()" title="Logout / خروج">✕</button>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="user-logged-chip">
+          <span>👤</span>
+          <span style="max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentUser.name}</span>
+          <button class="btn-signout" onclick="handleSignOut()" title="Logout / خروج">✕</button>
+        </div>
+      `;
+    }
 
-    // Pre-populate intake fields with user's actual data
+    // Pre-populate intake fields with user's actual profile
     if (currentUser.height) document.getElementById('userHeight').value = currentUser.height;
     if (currentUser.weight) document.getElementById('userWeight').value = currentUser.weight;
     if (currentUser.age) document.getElementById('userAge').value = currentUser.age;
@@ -504,17 +553,29 @@ function updateAuthUi() {
   }
 }
 
-function openAuthModal(tab) {
+function openAuthModal(tab, isMandatory = false) {
   const overlay = document.getElementById('authModalOverlay');
   if (overlay) {
+    if (isMandatory || !currentUser) {
+      overlay.classList.add('mandatory');
+    } else {
+      overlay.classList.remove('mandatory');
+    }
     overlay.classList.add('open');
     switchAuthTab(tab || 'signin');
   }
 }
 
-function closeAuthModal() {
+function closeAuthModal(force = false) {
+  // If user is not authenticated and not explicitly forced, keep the screen locked
+  if (!currentUser && !force) {
+    return;
+  }
   const overlay = document.getElementById('authModalOverlay');
-  if (overlay) overlay.classList.remove('open');
+  if (overlay) {
+    overlay.classList.remove('open');
+    overlay.classList.remove('mandatory');
+  }
   clearAuthMsg();
 }
 
@@ -554,7 +615,7 @@ function clearAuthMsg() {
   el.textContent = '';
 }
 
-// Handle Sign In (Tries server endpoint with graceful client fallback)
+// Handle Real Sign In via REST API
 async function handleSignIn(e) {
   e.preventDefault();
   const identifier = document.getElementById('signInIdentifier').value.trim();
@@ -568,36 +629,25 @@ async function handleSignIn(e) {
       body: JSON.stringify({ identifier, password })
     });
 
-    if (res.ok) {
-      const data = await res.json();
+    const data = await res.json();
+    if (res.ok && data.success) {
+      if (data.user.role === 'admin') {
+        sessionStorage.setItem('shock_admin_user', JSON.stringify(data.user));
+        localStorage.setItem('shock_user', JSON.stringify(data.user));
+        window.location.href = 'admin.html';
+        return;
+      }
       onAuthSuccess(data.user);
       return;
+    } else {
+      showAuthMsg(data.error || dict.authErrorLogin, true);
     }
   } catch (err) {
-    // Server offline or GitHub Pages: use client-side database
-  }
-
-  // Client-side local database fallback
-  const localUsers = JSON.parse(localStorage.getItem('shock_registered_users') || '[]');
-  const found = localUsers.find(u => u.identifier === identifier && u.password === password);
-
-  if (found || (identifier === '09123456789' && password === '123456')) {
-    const user = found || {
-      id: 1,
-      name: 'سارا محمدی',
-      identifier: '09123456789',
-      age: 31,
-      height: 168,
-      weight: 78,
-      target_weight: 62
-    };
-    onAuthSuccess(user);
-  } else {
-    showAuthMsg(dict.authErrorLogin, true);
+    showAuthMsg('خطا در برقراری ارتباط با سرور محلی.', true);
   }
 }
 
-// Handle Sign Up
+// Handle Real Sign Up via REST API
 async function handleSignUp(e) {
   e.preventDefault();
   const name = document.getElementById('signUpName').value.trim();
@@ -608,8 +658,7 @@ async function handleSignUp(e) {
   const weight = parseFloat(document.getElementById('signUpWeight').value) || 75;
   const target_weight = parseFloat(document.getElementById('signUpTarget').value) || 60;
 
-  const newUser = {
-    id: Date.now(),
+  const newUserPayload = {
     name,
     identifier,
     password,
@@ -623,28 +672,22 @@ async function handleSignUp(e) {
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(newUserPayload)
     });
 
-    if (res.ok) {
-      const data = await res.json();
+    const data = await res.json();
+    if (res.ok && data.success) {
       onAuthSuccess(data.user);
-      return;
+      // Switch user to Tab 3 (Health Dossier) to fill medical details
+      setTimeout(() => {
+        switchTab('tab-intake', document.querySelectorAll('.nav-item')[2]);
+      }, 800);
+    } else {
+      showAuthMsg(data.error || 'خطا در ثبت نام.', true);
     }
   } catch (err) {
-    // Server offline or GitHub Pages
+    showAuthMsg('خطا در اتصال به سرور محلی.', true);
   }
-
-  // Save to client-side localStorage users registry
-  const localUsers = JSON.parse(localStorage.getItem('shock_registered_users') || '[]');
-  if (localUsers.some(u => u.identifier === identifier)) {
-    showAuthMsg(currentLang === 'fa' ? 'این شماره یا ایمیل قبلاً ثبت‌نام شده است.' : 'This phone or email is already registered.', true);
-    return;
-  }
-
-  localUsers.push(newUser);
-  localStorage.setItem('shock_registered_users', JSON.stringify(localUsers));
-  onAuthSuccess(newUser);
 }
 
 function onAuthSuccess(user) {
@@ -653,10 +696,13 @@ function onAuthSuccess(user) {
   showAuthMsg(i18n[currentLang].authSuccessLogin, false);
 
   setTimeout(() => {
-    closeAuthModal();
+    closeAuthModal(true);
     updateAuthUi();
+    checkPatientStatus();
+    loadChatHistory();
+    loadDay(currentDay);
     triggerMockNotification('auth_done');
-  }, 700);
+  }, 600);
 }
 
 function handleSignOut() {
@@ -664,8 +710,64 @@ function handleSignOut() {
   if (confirm(confirmMsg)) {
     currentUser = null;
     localStorage.removeItem('shock_user');
+    sessionStorage.removeItem('shock_admin_user');
     updateAuthUi();
     loadDay(currentDay);
+    renderEmptyChat();
+    openAuthModal('signin', true);
+  }
+}
+
+// ================= REAL STATUS & WAITING ROOM =================
+async function checkPatientStatus() {
+  if (!currentUser) return;
+  try {
+    const res = await fetch(`/api/patient/status?user_id=${currentUser.id}`);
+    if (res.ok) {
+      const data = await res.json();
+      updateWaitingRoomUi(data.status, data.plan);
+    }
+  } catch (e) {
+    console.error("status err", e);
+  }
+}
+
+function updateWaitingRoomUi(status, plan) {
+  const waitingHero = document.querySelector('.waiting-room-hero');
+  if (!waitingHero) return;
+
+  if (status === 'approved' && plan) {
+    waitingHero.innerHTML = `
+      <div style="font-size: 42px; margin-bottom: 8px;">🎉</div>
+      <h2 style="font-size: 18px; font-weight: 900; color: #4ade80;">رژیم اختصاصی شما توسط خانم دکتر تایید شد!</h2>
+      <p style="font-size: 13px; opacity: 0.95; line-height: 1.6; margin: 8px 0 16px;">
+        ${plan.doctor_note || 'پرونده و آزمایش‌های شما با موفقیت بررسی شد و رژیم اختصاصی برای شما در اپلیکیشن فعال گردید.'}
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: rgba(0,0,0,0.35); padding: 12px; border-radius: 12px; margin-bottom: 16px;">
+        <div>
+          <div style="font-size: 10px; color: #94a3b8;">کالری هدف روزانه</div>
+          <div style="font-size: 16px; font-weight: 900; color: #38bdf8;">${plan.calorie_target || 1550} Kcal</div>
+        </div>
+        <div>
+          <div style="font-size: 10px; color: #94a3b8;">پروتئین روزانه</div>
+          <div style="font-size: 16px; font-weight: 900; color: #4ade80;">${plan.protein_grams || 95} گرم</div>
+        </div>
+        <div>
+          <div style="font-size: 10px; color: #94a3b8;">کربوهیدرات پیچیده</div>
+          <div style="font-size: 16px; font-weight: 900; color: #fde047;">${plan.carbs_grams || 130} گرم</div>
+        </div>
+      </div>
+
+      <div style="text-align: right; background: rgba(255,255,255,0.08); padding: 10px 14px; border-radius: 10px; font-size: 12px; margin-bottom: 16px; line-height: 1.6;">
+        <div><strong>پروتکل غذایی:</strong> ${plan.diet_protocol || 'رژیم با شاخص گلایسمی پایین'}</div>
+        <div style="margin-top: 4px;"><strong>برنامه ورزشی:</strong> ${plan.workout_plan || 'پیاده‌روی روزانه'}</div>
+      </div>
+
+      <button class="btn-primary" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 900;" onclick="switchTab('tab-today', document.querySelectorAll('.nav-item')[0])">
+        🚀 ورود به برنامه امروز (شروع تکنیک‌ها)
+      </button>
+    `;
   }
 }
 
@@ -694,7 +796,7 @@ function selectDay(dayNum) {
   loadDay(dayNum);
 }
 
-function loadDay(dayNum) {
+async function loadDay(dayNum) {
   const data = techniquesData.find(d => d.day === dayNum) || techniquesData[0] || defaultTechniques[0];
   const dict = i18n[currentLang];
   const isEn = (currentLang === 'en');
@@ -711,15 +813,41 @@ function loadDay(dayNum) {
   const dQuote = document.getElementById('doctorQuote');
   if (dQuote) dQuote.textContent = `«${quote}»`;
 
+  // Fetch real habits from backend if logged in
+  savedChecks = {};
+  if (currentUser) {
+    try {
+      const hRes = await fetch(`/api/patient/habits?user_id=${currentUser.id}&day=${dayNum}`);
+      if (hRes.ok) {
+        const hData = await hRes.json();
+        (hData.habits || []).forEach(h => {
+          if (h.completed) savedChecks[h.task_id] = true;
+        });
+      }
+    } catch(e) {}
+
+    // Fetch real trackers
+    try {
+      const tRes = await fetch(`/api/patient/trackers?user_id=${currentUser.id}&day=${dayNum}`);
+      if (tRes.ok) {
+        const tData = await tRes.json();
+        waterGlasses = tData.water_glasses || 0;
+        workoutMins = tData.workout_mins || 0;
+        updateWaterUi();
+        const wVal = document.getElementById('workoutMins');
+        if (wVal) wVal.textContent = workoutMins;
+        const wBar = document.getElementById('workoutProgressBar');
+        if (wBar) wBar.style.width = `${Math.min(100, (workoutMins / 30) * 100)}%`;
+      }
+    } catch(e) {}
+  }
+
   // Render Cumulative Tasks
   const taskListEl = document.getElementById('taskList');
   if (taskListEl) {
     taskListEl.innerHTML = '';
 
     let completedCount = 0;
-    const userPrefix = currentUser ? `user_${currentUser.id}_` : '';
-    const savedChecks = JSON.parse(localStorage.getItem(`${userPrefix}day_${dayNum}_tasks`) || '{}');
-
     data.cumulativeTasks.forEach(task => {
       const isChecked = !!savedChecks[task.id];
       if (isChecked) completedCount++;
@@ -758,15 +886,31 @@ function loadDay(dayNum) {
   }
 }
 
-function toggleTask(dayNum, taskId) {
-  const userPrefix = currentUser ? `user_${currentUser.id}_` : '';
-  const savedChecks = JSON.parse(localStorage.getItem(`${userPrefix}day_${dayNum}_tasks`) || '{}');
-  savedChecks[taskId] = !savedChecks[taskId];
-  localStorage.setItem(`${userPrefix}day_${dayNum}_tasks`, JSON.stringify(savedChecks));
+async function toggleTask(dayNum, taskId) {
+  if (!currentUser) {
+    openAuthModal('signin');
+    return;
+  }
+
+  const isChecked = !savedChecks[taskId];
+  savedChecks[taskId] = isChecked;
+
+  try {
+    await fetch('/api/patient/habits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: currentUser.id,
+        day: dayNum,
+        task_id: taskId,
+        completed: isChecked ? 1 : 0
+      })
+    });
+  } catch(e) {}
 
   loadDay(dayNum);
 
-  if (savedChecks[taskId]) {
+  if (isChecked) {
     userXp += 15;
     const xpEl = document.getElementById('userTotalXp');
     if (xpEl) xpEl.textContent = userXp;
@@ -810,16 +954,19 @@ function addWater() {
   if (waterGlasses < 8) {
     waterGlasses++;
     updateWaterUi();
+    syncTrackersToServer();
   }
 }
 
 function setWater(num) {
   waterGlasses = num;
   updateWaterUi();
+  syncTrackersToServer();
 }
 
 function updateWaterUi() {
-  document.getElementById('waterCount').textContent = waterGlasses;
+  const el = document.getElementById('waterCount');
+  if (el) el.textContent = waterGlasses;
   const icons = document.querySelectorAll('.water-glasses .glass-icon');
   icons.forEach((icon, idx) => {
     if (idx < waterGlasses) {
@@ -833,8 +980,27 @@ function updateWaterUi() {
 let workoutMins = 20;
 function addWorkout(delta) {
   workoutMins = Math.min(30, workoutMins + delta);
-  document.getElementById('workoutMins').textContent = workoutMins;
-  document.getElementById('workoutProgressBar').style.width = `${(workoutMins / 30) * 100}%`;
+  const el = document.getElementById('workoutMins');
+  if (el) el.textContent = workoutMins;
+  const bar = document.getElementById('workoutProgressBar');
+  if (bar) bar.style.width = `${(workoutMins / 30) * 100}%`;
+  syncTrackersToServer();
+}
+
+async function syncTrackersToServer() {
+  if (!currentUser) return;
+  try {
+    await fetch('/api/patient/trackers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: currentUser.id,
+        day: currentDay,
+        water_glasses: waterGlasses,
+        workout_mins: workoutMins
+      })
+    });
+  } catch(e) {}
 }
 
 // Waiting Room Countdown
@@ -852,14 +1018,6 @@ function startWaitingCountdown() {
   }, 1000);
 }
 
-function simulateDoctorApproval() {
-  const msg = currentLang === 'fa' 
-    ? '🎉 تبریک! رژیم اختصاصی و برنامه ورزشی شما توسط خانم دکتر با موفقیت تایید و در پنل بارگذاری شد.'
-    : '🎉 Congratulations! Your personalized diet and workout program was approved by Dr. Madis and is now live.';
-  alert(msg);
-  switchTab('tab-today', document.querySelectorAll('.nav-item')[0]);
-}
-
 // Switch Tabs
 function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
@@ -868,9 +1026,13 @@ function switchTab(tabId, btn) {
   const target = document.getElementById(tabId);
   if (target) target.classList.add('active');
   if (btn) btn.classList.add('active');
+
+  if (tabId === 'tab-chat') {
+    loadChatHistory();
+  }
 }
 
-// Notifications Simulator
+// Notifications
 function triggerMockNotification(type) {
   const toast = document.getElementById('notifToast');
   const icon = document.getElementById('notifIcon');
@@ -920,6 +1082,7 @@ function dismissNotification() {
 function handleBloodTestUpload(event) {
   const file = event.target.files[0];
   if (file) {
+    uploadedBloodTestName = file.name;
     const isFa = (currentLang === 'fa');
     document.getElementById('bloodTestFilename').textContent = `${isFa ? 'فایل بارگذاری شد' : 'Uploaded'}: ${file.name}`;
     alert(isFa ? `فایل آزمایش (${file.name}) با موفقیت پیوست شد.` : `Lab file (${file.name}) uploaded successfully.`);
@@ -935,6 +1098,7 @@ function selectAnglePhoto(angle) {
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
+        photoAngles[angle] = event.target.result;
         const previewEl = document.getElementById(`preview-${angle}`);
         previewEl.innerHTML = `<img src="${event.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
       };
@@ -944,11 +1108,52 @@ function selectAnglePhoto(angle) {
   input.click();
 }
 
-function saveIntake(e) {
+// Save Real Intake to SQLite Backend
+async function saveIntake(e) {
   e.preventDefault();
-  const isFa = (currentLang === 'fa');
-  alert(isFa ? 'اطلاعات سلامت، آزمایش خون و تصاویر زاویه‌ای شما برای بررسی خانم دکتر ذخیره شد.' : 'Health data, lab reports, and 360 photos saved for Dr. Madis.');
-  switchTab('tab-waiting', document.querySelectorAll('.nav-item')[1]);
+  if (!currentUser) {
+    alert(currentLang === 'fa' ? 'لطفاً ابتدا وارد حساب کاربری خود شوید یا ثبت‌نام کنید.' : 'Please sign in or register first.');
+    openAuthModal('signin');
+    return;
+  }
+
+  const height = parseFloat(document.getElementById('userHeight').value) || 168;
+  const weight = parseFloat(document.getElementById('userWeight').value) || 78;
+  const age = parseInt(document.getElementById('userAge').value) || 31;
+  const target_weight = parseFloat(document.getElementById('userTargetWeight').value) || 62;
+  const menstrual_cycle = document.getElementById('userMenstrual').value;
+  const conditions = document.getElementById('userConditions').value.trim();
+
+  try {
+    const res = await fetch('/api/patient/intake', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: currentUser.id,
+        height,
+        weight,
+        age,
+        target_weight,
+        menstrual_cycle,
+        conditions,
+        blood_test_filename: uploadedBloodTestName,
+        photo_front: photoAngles.front,
+        photo_right: photoAngles.right,
+        photo_back: photoAngles.back,
+        photo_left: photoAngles.left
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      alert(currentLang === 'fa' ? '✅ پرونده سلامت، برگه آزمایش و تصاویر شما با موفقیت ذخیره شد و در صف بررسی خانم دکتر قرار گرفت.' : '✅ Health dossier and photos submitted to Dr. Madis.');
+      checkPatientStatus();
+      switchTab('tab-waiting', document.querySelectorAll('.nav-item')[1]);
+    } else {
+      alert(data.error || 'خطا در ثبت پرونده');
+    }
+  } catch(err) {
+    alert('خطا در برقراری ارتباط با سرور.');
+  }
 }
 
 function submitHomework() {
@@ -962,7 +1167,54 @@ function submitHomework() {
   document.getElementById('homeworkInput').value = '';
 }
 
-// ================= AI CLINICAL CHAT COMPANION =================
+// ================= REAL CHAT HISTORY & MESSAGING =================
+async function loadChatHistory() {
+  const chatContainer = document.getElementById('chatMessages');
+  if (!chatContainer) return;
+
+  if (!currentUser) {
+    renderEmptyChat();
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/chat/messages?user_id=${currentUser.id}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.messages && data.messages.length > 0) {
+        chatContainer.innerHTML = '';
+        data.messages.forEach(m => {
+          const bubble = document.createElement('div');
+          const isDoc = (m.sender === 'doctor' || m.sender === 'ai');
+          bubble.className = isDoc ? 'chat-bubble doctor' : 'chat-bubble user';
+          bubble.textContent = m.message;
+          chatContainer.appendChild(bubble);
+        });
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      } else {
+        renderEmptyChat();
+      }
+    } else {
+      renderEmptyChat();
+    }
+  } catch(e) {
+    renderEmptyChat();
+  }
+}
+
+function renderEmptyChat() {
+  const chatContainer = document.getElementById('chatMessages');
+  if (!chatContainer) return;
+  const dict = i18n[currentLang];
+  chatContainer.innerHTML = `
+    <div id="chatEmptyState" class="chat-empty-state" style="text-align: center; padding: 70px 16px; color: #94a3b8;">
+      <div style="font-size: 40px; margin-bottom: 12px; opacity: 0.85;">💬</div>
+      <div style="font-weight: 800; font-size: 14px; color: #334155; margin-bottom: 6px;">${dict.chatEmptyTitle || 'گفتگوی مستقیم با خانم دکتر'}</div>
+      <div style="font-size: 12px; line-height: 1.6; color: #94a3b8;">${dict.chatEmptySub || 'هنوز پیامی ارسال نشده است.<br>هر سوال، چالش یا احساسی در طول روز داشتی، اینجا بنویس!'}</div>
+    </div>
+  `;
+}
+
 function handleChatEnter(e) {
   if (e.key === 'Enter') sendChatMessage();
 }
@@ -972,8 +1224,17 @@ async function sendChatMessage() {
   const text = input.value.trim();
   if (!text) return;
 
+  if (!currentUser) {
+    alert(currentLang === 'fa' ? 'لطفاً ابتدا وارد حساب کاربری خود شوید یا ثبت‌نام کنید.' : 'Please sign in or register first.');
+    openAuthModal('signin', true);
+    return;
+  }
+
   const chatContainer = document.getElementById('chatMessages');
-  const isFa = (currentLang === 'fa');
+
+  // Remove empty state placeholder before appending real messages
+  const emptyState = document.getElementById('chatEmptyState');
+  if (emptyState) emptyState.remove();
 
   // User Bubble
   const userBubble = document.createElement('div');
@@ -983,56 +1244,33 @@ async function sendChatMessage() {
   input.value = '';
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  // Typing Indicator Bubble
-  const doctorBubble = document.createElement('div');
-  doctorBubble.className = 'chat-bubble doctor';
-  doctorBubble.innerHTML = `<span style="opacity: 0.7;">${isFa ? '⏳ در حال پاسخگویی...' : '⏳ Typing response...'}</span>`;
-  chatContainer.appendChild(doctorBubble);
+  // Typing Bubble
+  const typingBubble = document.createElement('div');
+  typingBubble.className = 'chat-bubble doctor';
+  typingBubble.innerHTML = `<span style="opacity: 0.7;">${currentLang === 'fa' ? '⏳ در حال بررسی و پاسخگویی...' : '⏳ Reviewing and typing...'}</span>`;
+  chatContainer.appendChild(typingBubble);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
   try {
-    const res = await fetch('/api/ai/chat', {
+    const res = await fetch('/api/chat/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        user_id: currentUser.id,
         message: text,
-        profile: currentUser || {},
         lang: currentLang
       })
     });
 
     if (res.ok) {
       const data = await res.json();
-      doctorBubble.textContent = data.reply;
+      typingBubble.textContent = data.reply;
       chatContainer.scrollTop = chatContainer.scrollHeight;
       return;
     }
-  } catch (err) {
-    // Fallback if offline or GitHub Pages
-  }
+  } catch (err) {}
 
-  // Local AI Clinical Companion Fallback
-  setTimeout(() => {
-    const msg = text.toLowerCase();
-    if (msg.includes('آب') || msg.includes('water') || msg.includes('تشنگی') || msg.includes('thirst')) {
-      doctorBubble.textContent = isFa 
-        ? 'آفرین به هوشیاریت! هر لیوان آبی که می‌نوشی سوخت پاک کبد و تسریع‌کننده متابولیسمه. بطری آب رو همیشه روی میزت بذار تا تکنیک روز ۱ رو راحت اجرا کنی 💧'
-        : 'Great awareness! Drinking water temporarily boosts metabolic rate by up to 30%. Keep your bottle in plain sight to easily nail Day 1 💧';
-    } else if (msg.includes('وزن') || msg.includes('weight') || msg.includes('استپ') || msg.includes('plateau')) {
-      doctorBubble.textContent = isFa 
-        ? 'اصلاً نگران نوسان‌های روزانه ترازو نباش! احتباس آب، نمک و تغییرات هورمونی کاملاً طبیعیه. مهم تداوم تکنیک‌های ۹۰ روزه شوکه؛ پاسخ بدنت حتمیه ❤️'
-        : 'Daily scale fluctuations are completely natural due to sodium and water balance. Stay consistent with your 90-day Shock habits ❤️';
-    } else if (msg.includes('شیرینی') || msg.includes('craving') || msg.includes('قند') || msg.includes('هوس')) {
-      doctorBubble.textContent = isFa
-        ? 'هوس شیرینی نشانه افت موقتی دوپامین یا کم‌آبیه! تکنیک اضطراری: ۱ لیوان آب ولرم بنوش، ۴ دور تنفس مربعی انجام بده و کارت مزایای لاغریت رو ۲ دقیقه بخون 🧘‍♀️'
-        : 'Sugar cravings are usually dopamine spikes or mild dehydration! Drink 1 glass of warm water, do 4 box breaths, and read your Advantage Card 🧘‍♀️';
-    } else {
-      doctorBubble.textContent = isFa 
-        ? 'پیامت رو با دقت بررسی کردم عزیزم. من و خانم دکتر در کنارتیم تا هر سوال یا چالشی در وعده‌ها و تکنیک‌ها داری رو فوراً برطرف کنیم. پرانرژی ادامه بده!'
-        : 'I reviewed your note! Dr. Madis and I are with you every step of the way. Feel free to ask any question regarding today\'s plan or techniques!';
-    }
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  }, 600);
+  typingBubble.textContent = 'پیام شما دریافت شد و به زودی توسط خانم دکتر پاسخ داده می‌شود.';
 }
 
 // Splash Screen Auto Dismiss
@@ -1042,26 +1280,13 @@ function dismissSplash() {
     splash.classList.add('fade-out');
     setTimeout(() => {
       splash.style.display = 'none';
+      if (!currentUser) {
+        openAuthModal('signin', true);
+      }
     }, 500);
   }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(dismissSplash, 1800);
-});
-
-// PWA Install Prompt
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  const banner = document.getElementById('installAppBanner');
-  if (banner) {
-    banner.style.display = 'flex';
-    document.getElementById('installAppBtn').onclick = async () => {
-      banner.style.display = 'none';
-      deferredPrompt.prompt();
-      deferredPrompt = null;
-    };
-  }
 });

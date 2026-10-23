@@ -78,9 +78,6 @@
           <span>📥</span>
           <span id="downloadBtnText" data-i18n="downloadApk">APK</span>
         </a>
-        <a href="doctor.html" style="font-size: 11px; text-decoration: none; background: #090d16; color: #facc15; border: 1px solid #f59e0b; padding: 4px 8px; border-radius: 8px; font-weight: 700;">
-          <span>⚡</span>
-        </a>
       </div>
     </header>
 
@@ -241,16 +238,6 @@
               <span data-i18n="step5">تایید نهایی و بارگذاری در پنل مراجع</span>
             </div>
           </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title" data-i18n="demoApproveTitle">تست سریع در دمو (ویژه بررسی کارفرما)</div>
-          <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px;" data-i18n="demoApproveDesc">
-            برای اینکه بتوانید فوراً خروجی تایید پزشک را تست کنید، می‌توانید از این دکمه شبیه‌ساز استفاده کنید:
-          </p>
-          <button class="btn-primary" onclick="simulateDoctorApproval()" data-i18n="demoApproveBtn">
-            ⚡ شبیه‌سازی تایید فوری رژیم توسط خانم دکتر
-          </button>
         </div>
       </section>
 
@@ -464,14 +451,10 @@
           </div>
 
           <div class="chat-messages" id="chatMessages">
-            <div class="chat-bubble doctor" data-i18n="chatInit1">
-              سلام دوست من! خسته نباشی. من و خانم دکتر اینجاییم تا هر سوال یا چالشی توی رژیم و تکنیک‌های روزت داری رو با هم حل کنیم. امروز چطور پیش رفت؟
-            </div>
-            <div class="chat-bubble user" data-i18n="chatInit2">
-              سلام خانم دکتر، تکنیک تنفس مربعی قبل از ناهار واقعا استرسم رو کم کرد. فقط سر کار گاهی یادم میره آب بخورم.
-            </div>
-            <div class="chat-bubble doctor" data-i18n="chatInit3">
-              آفرین به همتت! دقیقاً به همین خاطر روی گوشیت نوتیف یادآوری فرستادیم. بطری آب رو همیشه روی میز جلو چشمت بذار تا عادتت تثبیت بشه. عکس ناهارت رو هم بفرست تا بشقابت رو ببینم ❤️
+            <div id="chatEmptyState" class="chat-empty-state" style="text-align: center; padding: 70px 16px; color: #94a3b8;">
+              <div style="font-size: 40px; margin-bottom: 12px; opacity: 0.85;">💬</div>
+              <div style="font-weight: 800; font-size: 14px; color: #334155; margin-bottom: 6px;" data-i18n="chatEmptyTitle">گفتگوی مستقیم با خانم دکتر</div>
+              <div style="font-size: 12px; line-height: 1.6; color: #94a3b8;" data-i18n="chatEmptySub">هنوز پیامی ارسال نشده است.<br>هر سوال، چالش یا احساسی در طول روز داشتی، اینجا بنویس!</div>
             </div>
           </div>
 
@@ -520,7 +503,13 @@
     <div class="auth-modal">
       <button class="auth-modal-close" onclick="closeAuthModal()">✕</button>
       
-      <div style="text-align: center; margin-bottom: 12px;">
+      <div style="text-align: center; margin-bottom: 12px; position: relative;">
+        <!-- Auth Modal Language Switcher -->
+        <button onclick="toggleLanguage()" type="button" class="btn-auth-lang" style="position: absolute; top: 0; right: 0; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 4px 8px; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; color: #475569; font-weight: 700;">
+          <span>🌐</span>
+          <span class="auth-lang-label">EN</span>
+        </button>
+
         <div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px; border: 2px solid #f59e0b; box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);">
           <img src="icons/shock.jpg" style="width:100%;height:100%;object-fit:cover;">
         </div>
@@ -558,7 +547,7 @@
       <form id="signUpForm" class="auth-form" onsubmit="handleSignUp(event)">
         <div class="form-group">
           <label id="lblSignUpName" class="form-label" data-i18n="lblFullName">نام و نام خانوادگی</label>
-          <input type="text" id="signUpName" class="form-input" data-i18n-placeholder="signUpNamePlaceholder" placeholder="مثال: سارا محمدی" required>
+          <input type="text" id="signUpName" class="form-input" data-i18n-placeholder="signUpNamePlaceholder" placeholder="نام و نام خانوادگی" required>
         </div>
         <div class="form-group">
           <label id="lblSignUpPhone" class="form-label" data-i18n="lblIdentifier">شماره موبایل یا ایمیل</label>
